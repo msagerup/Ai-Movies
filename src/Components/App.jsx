@@ -2,24 +2,26 @@ import React from 'react';
 import { CssBaseline } from '@mui/material';
 import { RouterProvider } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { Provider } from 'react-redux';
 import routes from '../Router/routes';
 
 import useStyles from './styles.js';
+import store from '../Redux/Store';
 
 const theme = createTheme();
-
-console.log(theme.spacing(2), 'theme.spacing(2)');
 
 const App = () => {
   const classes = useStyles();
 
   return (
-    <ThemeProvider theme={theme}>
-      <div className={classes.root}>
-        <CssBaseline />
-        <RouterProvider router={routes} />
-      </div>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <div className={classes.root}>
+          <CssBaseline />
+          <RouterProvider router={routes} />
+        </div>
+      </ThemeProvider>
+    </Provider>
   );
 };
 

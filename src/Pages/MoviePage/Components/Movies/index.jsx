@@ -1,7 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import {
+  Box,
+  CircularProgress,
+  useMediaQuery,
+  Typography,
+} from '@mui/icons-material';
+import { useSelector } from 'react-redux';
+
+import { useGetMoviesQuery } from '../../../../Redux/Services/TMDB';
 
 const Movies = () => {
-  console.log('Movies opage');
+  const { data, error, isLoading } = useGetMoviesQuery();
+
+  console.log(data);
   return (
     <div>
       <h2>MoviePage</h2>
