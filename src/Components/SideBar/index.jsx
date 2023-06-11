@@ -11,8 +11,11 @@ import {
   ListItemIcon,
 } from '@mui/material';
 
+import { useDispatch, useSelector } from 'react-redux';
+
 import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
+import { setgenreIdOrCategoryName } from '../../Redux/Features/currentGenreIdOrCategory';
 import useStyles from './styles.js';
 import { useGetGenresQuery } from '../../Redux/Services/TMDB.js';
 import Loader from '../Loader/Loader.jsx';
@@ -40,9 +43,8 @@ const categories = [
 const SideBar = ({ setIsMobileOpen }) => {
   const theme = useTheme();
   const classes = useStyles();
-  const { data, error, isLoading } = useGetGenresQuery();
-
-  console.log(data, 'data');
+  const { data, isLoading } = useGetGenresQuery();
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -58,9 +60,15 @@ const SideBar = ({ setIsMobileOpen }) => {
         <ListSubheader>Categories</ListSubheader>
         {categories.map(({ label, value }) => (
           <Link key={value} className={classes.links} to="/">
-            <ListItemButton onClick={() => {}}>
+            <ListItemButton
+              onClick={() => dispatch(setgenreIdOrCategoryName(value))}
+            >
               <ListItemIcon>
-                <img src={genreIcons[label.toLowerCase()]} alt="Logo" className={classes.genreImages} />
+                <img
+                  src={genreIcons[label.toLowerCase()]}
+                  alt="Logo"
+                  className={classes.genreImages}
+                />
               </ListItemIcon>
               <ListItemText primary={label} />
             </ListItemButton>
@@ -70,16 +78,23 @@ const SideBar = ({ setIsMobileOpen }) => {
       <Divider />
       <List>
         <ListSubheader>Genres</ListSubheader>
-        {isLoading ? <Loader size="2rem" display="flex" position="center" /> : data.genres.map(({ id, name }) => (
-          <Link key={id} className={classes.links} to="/">
-            <ListItemButton onClick={() => {}}>
-              <ListItemIcon>
-                <img src={genreIcons[name.toLowerCase()]} alt="Logo" className={classes.genreImages} />
-              </ListItemIcon>
-              <ListItemText primary={name} />
-            </ListItemButton>
-          </Link>
-        ))}
+        {isLoading ? <Loader size="2rem" display="flex" position="center" />
+          : data.genres.map(({ id, name }) => (
+            <Link key={id} className={classes.links} to="/">
+              <ListItemButton
+                onClick={() => dispatch(setgenreIdOrCategoryName(id))}
+              >
+                <ListItemIcon>
+                  <img
+                    src={genreIcons[name.toLowerCase()]}
+                    alt="Logo"
+                    className={classes.genreImages}
+                  />
+                </ListItemIcon>
+                <ListItemText primary={name} />
+              </ListItemButton>
+            </Link>
+          ))}
       </List>
     </>
   );
