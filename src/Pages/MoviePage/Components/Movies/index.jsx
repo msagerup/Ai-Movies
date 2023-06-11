@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Box, CircularProgress, useMediaQuery } from '@mui/icons-material';
-import { useSelector } from 'react-redux';
 
 import { Typography } from '@mui/material';
 import { useGetMoviesQuery } from '../../../../Redux/Services/TMDB';

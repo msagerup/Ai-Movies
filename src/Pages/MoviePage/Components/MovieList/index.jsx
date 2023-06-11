@@ -1,7 +1,5 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-
-import { useSelector } from 'react-redux';
 import useStyles from './styles.js';
 import Movie from '../Movie/index.js';
 

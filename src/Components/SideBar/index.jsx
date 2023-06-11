@@ -14,12 +14,13 @@ import {
 import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import useStyles from './styles.js';
+import { useGetGenresQuery } from '../../Redux/Services/TMDB.js';
+import Loader from '../Loader/Loader.jsx';
+import genreIcons from '../../assets/genres';
 
-const redLogo =
-  'https://fontmeme.com/permalink/210930/8531c658a743debe1e1aa1a2fc82006e.png';
+const redLogo = 'https://fontmeme.com/permalink/210930/8531c658a743debe1e1aa1a2fc82006e.png';
 
-const blueLogo =
-  'https://fontmeme.com/permalink/210930/6854ae5c7f76597cf8680e48a2c8a50a.png';
+const blueLogo = 'https://fontmeme.com/permalink/210930/6854ae5c7f76597cf8680e48a2c8a50a.png';
 
 const categories = [
   {
@@ -36,36 +37,12 @@ const categories = [
   },
 ];
 
-const demoGenre = [
-  {
-    label: 'Comedy',
-    value: 'comedy',
-  },
-  {
-    label: 'Drama',
-    value: 'drama',
-  },
-  {
-    label: 'Action',
-    value: 'action',
-  },
-  {
-    label: 'Romance',
-    value: 'romance',
-  },
-  {
-    label: 'Horror',
-    value: 'horror',
-  },
-  {
-    label: 'Sci-Fi',
-    value: 'sci-fi',
-  },
-];
-
 const SideBar = ({ setIsMobileOpen }) => {
   const theme = useTheme();
   const classes = useStyles();
+  const { data, error, isLoading } = useGetGenresQuery();
+
+  console.log(data, 'data');
 
   return (
     <>
@@ -82,9 +59,9 @@ const SideBar = ({ setIsMobileOpen }) => {
         {categories.map(({ label, value }) => (
           <Link key={value} className={classes.links} to="/">
             <ListItemButton onClick={() => {}}>
-              {/* <ListItemIcon>
-                <img src={redLogo} alt="Logo" className={classes.genreImages} />
-              </ListItemIcon> */}
+              <ListItemIcon>
+                <img src={genreIcons[label.toLowerCase()]} alt="Logo" className={classes.genreImages} />
+              </ListItemIcon>
               <ListItemText primary={label} />
             </ListItemButton>
           </Link>
@@ -93,13 +70,13 @@ const SideBar = ({ setIsMobileOpen }) => {
       <Divider />
       <List>
         <ListSubheader>Genres</ListSubheader>
-        {demoGenre.map(({ label, value }) => (
-          <Link key={value} className={classes.links} to="/">
+        {isLoading ? <Loader size="2rem" display="flex" position="center" /> : data.genres.map(({ id, name }) => (
+          <Link key={id} className={classes.links} to="/">
             <ListItemButton onClick={() => {}}>
-              {/* <ListItemIcon>
-                <img src={redLogo} alt="Logo" className={classes.genreImages} />
-              </ListItemIcon> */}
-              <ListItemText primary={label} />
+              <ListItemIcon>
+                <img src={genreIcons[name.toLowerCase()]} alt="Logo" className={classes.genreImages} />
+              </ListItemIcon>
+              <ListItemText primary={name} />
             </ListItemButton>
           </Link>
         ))}
