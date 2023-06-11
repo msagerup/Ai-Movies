@@ -13,9 +13,16 @@ export const genreIdOrCategory = createSlice({
     setgenreIdOrCategoryName: (state, action) => {
       // eslint-disable-next-line no-param-reassign
       state.genreIdOrCategoryName = action.payload;
+      // Reset search query
+      // eslint-disable-next-line no-param-reassign
+      state.searchQuery = '';
+    },
+    setSearchQuery: (state, action) => {
+      // eslint-disable-next-line no-param-reassign
+      state.searchQuery = action.payload;
     },
   },
 });
 
-export const { setgenreIdOrCategoryName } = genreIdOrCategory.actions;
+export const { setgenreIdOrCategoryName, setSearchQuery } = genreIdOrCategory.actions;
 export default genreIdOrCategory.reducer;

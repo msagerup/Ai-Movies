@@ -1,5 +1,4 @@
 import { makeStyles } from '@mui/styles';
-import { hover } from '@testing-library/user-event/dist/hover';
 
 const drawerWidth = 240;
 

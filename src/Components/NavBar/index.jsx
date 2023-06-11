@@ -20,6 +20,7 @@ import { useTheme } from '@mui/material/styles';
 
 import { Link } from 'react-router-dom';
 import Sidebar from '../SideBar';
+import Search from '../Search';
 
 import useStyles from './styles.js';
 
@@ -40,9 +41,7 @@ const NavBar = () => {
               color="inherit"
               edge="start"
               style={{ outline: 'none' }}
-              onClick={() =>
-                setIsMobileOpen((prevIsMobileOpen) => !prevIsMobileOpen)
-              }
+              onClick={() => setIsMobileOpen((prevIsMobileOpen) => !prevIsMobileOpen)}
               className={classes.menuButton}
             >
               <Menu />
@@ -51,7 +50,7 @@ const NavBar = () => {
           <IconButton color="inherit" sx={{ ml: 1 }} onClick={() => {}}>
             {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
-          {!isMobile && <div>searc..</div>}
+          {!isMobile && <Search />}
           <div>
             {!isAuthenticated ? (
               <Button color="inherit" onClick={() => {}}>
@@ -74,7 +73,7 @@ const NavBar = () => {
               </Button>
             )}
           </div>
-          {isMobile && <div>search..</div>}
+          {isMobile && <Search />}
         </Toolbar>
       </AppBar>
       <div>
@@ -84,9 +83,7 @@ const NavBar = () => {
               variant="temporary"
               anchor="right"
               open={isMobileOpen}
-              onClose={() =>
-                setIsMobileOpen((prevIsMobileOpen) => !prevIsMobileOpen)
-              }
+              onClose={() => setIsMobileOpen((prevIsMobileOpen) => !prevIsMobileOpen)}
               classes={{ paper: classes.drawerPaper }}
               ModalProps={{ keepMounted: true }}
             >
