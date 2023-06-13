@@ -9,13 +9,13 @@ import Loader from '../../../../Components/Loader/Loader';
 const Movies = () => {
   const [page, setPage] = useState(1);
   const { genreIdOrCategoryName, searchQuery } = useSelector((state) => state.currentGenreIdOrCategory);
-  const { data, error, isLoading } = useGetMoviesQuery({
+  const { data, error, isFetching } = useGetMoviesQuery({
     genreIdOrCategoryName,
-    page,
     searchQuery,
+    page,
   });
 
-  if (isLoading) {
+  if (isFetching) {
     return <Loader size="4rem" display="flex" position="center" />;
   }
 

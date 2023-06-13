@@ -23,6 +23,9 @@ import Sidebar from '../SideBar';
 import Search from '../Search';
 
 import useStyles from './styles.js';
+import { fetchToken } from '../../utils';
+
+import useAuth from '../../hooks/useAuth';
 
 const NavBar = () => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -31,11 +34,17 @@ const NavBar = () => {
   const isMobile = useMediaQuery('(max-width: 600px)');
   const theme = useTheme();
   const isAuthenticated = false;
+  const [loginInUser] = useAuth();
+
+  // console.log(loginInUser, 'FUNCKING HGELLO');
 
   return (
     <>
+
       <AppBar position="fixed">
+
         <Toolbar className={classes.toolbar}>
+
           {isMobile && (
             <IconButton
               color="inherit"
@@ -47,13 +56,14 @@ const NavBar = () => {
               <Menu />
             </IconButton>
           )}
+          <Button variant="contained" onClick={loginInUser}><h1>login</h1></Button>
           <IconButton color="inherit" sx={{ ml: 1 }} onClick={() => {}}>
             {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
           {!isMobile && <Search />}
           <div>
             {!isAuthenticated ? (
-              <Button color="inherit" onClick={() => {}}>
+              <Button color="inherit" onClick={fetchToken}>
                 Login &nbsp; <AccountCircle />
               </Button>
             ) : (

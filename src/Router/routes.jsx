@@ -9,11 +9,15 @@ const routes = createBrowserRouter([
   {
     path: '/',
     element: <MainLayout />,
-    errorElement: <ErrorPage />,
+    // errorElement: <ErrorPage />,
     children: [
       {
         index: true,
         element: <Movies />,
+      },
+      {
+        path: 'approved',
+        element: <MovieInfo />,
       },
       {
         path: 'movie/:id',
