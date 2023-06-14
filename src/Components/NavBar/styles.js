@@ -19,23 +19,19 @@ export default makeStyles((theme) => ({
       display: 'none',
     },
   },
-  avatar: {
-    width: '30px',
-    height: '30px',
-  },
   drawer: {
     [theme.breakpoints.up('sm')]: {
-      width: drawerWidth, // 240
+      width: drawerWidth,
       flexShrink: 0,
     },
   },
   drawerPaper: {
-    width: drawerWidth, // 240
+    width: drawerWidth,
   },
   linkButton: {
     '&:hover': {
       color: 'white !important',
-      textDecoration: 'none !important',
+      textDecoration: 'none',
     },
   },
 }));

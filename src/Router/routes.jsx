@@ -17,7 +17,7 @@ const routes = createBrowserRouter([
       },
       {
         path: 'approved',
-        element: <MovieInfo />,
+        element: <Movies />,
       },
       {
         path: 'movie/:id',

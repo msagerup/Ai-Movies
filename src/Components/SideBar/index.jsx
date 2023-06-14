@@ -1,17 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   Divider,
   List,
   ListItemButton,
   ListItemText,
   ListSubheader,
-  ListItiemIcon,
-  Box,
-  CircularProgress,
+
   ListItemIcon,
 } from '@mui/material';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
@@ -40,7 +38,7 @@ const categories = [
   },
 ];
 
-const SideBar = ({ setIsMobileOpen }) => {
+const SideBar = () => {
   const theme = useTheme();
   const classes = useStyles();
   const { data, isLoading } = useGetGenresQuery();

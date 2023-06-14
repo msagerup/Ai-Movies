@@ -12,7 +12,7 @@ const ErrorPage = () => {
       <p>Sorry, seems the page looking for does not exist</p>
       <p>
         <i>
-          {error.statusText} || {error.message}
+          {error?.statusText} || {error.message}
         </i>
       </p>
     </>

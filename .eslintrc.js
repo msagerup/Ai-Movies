@@ -10,9 +10,13 @@ module.exports = {
   },
   rules: {
     'react/react-in-jsx-scope': 0,
+    'no-plusplus': 0,
+    'no-await-in-loop': 0,
+    'no-param-reassign': 0,
     'import/extensions': 0,
     'react/prop-types': 0,
     'linebreak-style': 0,
+    'no-trailing-spaces': 0,
     'react/state-in-constructor': 0,
     'import/prefer-default-export': 0,
     'react/function-component-definition': [
@@ -23,6 +27,7 @@ module.exports = {
       },
     ],
     'max-len': [2, 350],
+
     'no-multiple-empty-lines': [
       'error',
       {
@@ -39,6 +44,7 @@ module.exports = {
     'object-curly-newline': 0,
     'react/jsx-filename-extension': 0,
     'react/jsx-one-expression-per-line': 0,
+    'react/self-closing-comp': 0,
     'jsx-a11y/click-events-have-key-events': 0,
     'jsx-a11y/alt-text': 0,
     'jsx-a11y/no-autofocus': 0,

@@ -31,7 +31,14 @@ export const tmdbApi = createApi({
         return `/movie/popular?page=${page}&api_key=${tmdbApiKey}`;
       },
     }),
+    // Get Movie Details
+    getMovieDetails: builder.query({
+      query: (movieId) => {
+        console.log('hello', movieId);
+        return `/movie/${movieId}?append_to_response=videos,reviews,credits,similar&api_key=${tmdbApiKey}`;
+      },
+    }),
   }),
 });
 
-export const { useGetMoviesQuery, useGetGenresQuery } = tmdbApi;
+export const { useGetMoviesQuery, useGetGenresQuery, useGetMovieDetailsQuery } = tmdbApi;

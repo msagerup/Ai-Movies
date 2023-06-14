@@ -1,42 +1,48 @@
 import axios from 'axios';
 
+const BASE_URL = 'https://api.themoviedb.org/3';
+const API_KEY = process.env.REACT_APP_TMDB_KEY;
+const AUTH_URL = 'https://www.themoviedb.org/authenticate/';
+
 export const moviesApi = axios.create({
-  baseURL: 'https://api.themoviedb.org/3',
+  baseURL: BASE_URL,
   params: {
-    api_key: process.env.REACT_APP_TMDB_KEY,
+    api_key: API_KEY,
   },
 });
 
 export const fetchToken = async () => {
   try {
-    const { data } = await moviesApi.get('/authentication/token/new');
+    const response = await moviesApi.get('/authentication/token/new');
 
-    const token = data.request_token;
-
-    if (data.success) {
+    if (response.data.success) {
+      const { request_token: token } = response.data;
       localStorage.setItem('request_token', token);
 
-      window.location.href = `https://www.themoviedb.org/authenticate/${token}?redirect_to=${window.location.origin}/approved`;
+      // Proceed to authenticate the token
+      window.location.href = `${AUTH_URL}${token}?redirect_to=${window.location.origin}/approved`;
     }
   } catch (error) {
-    console.log('Sorry, your token could not be created.');
+    console.error('Sorry, your token could not be created.', error);
   }
 };
 
 export const createSessionId = async () => {
   const token = localStorage.getItem('request_token');
 
-  if (token) {
-    try {
-      const { data: { session_id } } = await moviesApi.post('authentication/session/new', {
-        request_token: token,
-      });
+  if (!token) {
+    throw new Error('No request token found.');
+  }
 
-      localStorage.setItem('session_id', session_id);
+  try {
+    const { data: { session_id } } = await moviesApi.post('authentication/session/new', {
+      request_token: token,
+    });
 
-      return session_id;
-    } catch (error) {
-      console.log(error);
-    }
+    localStorage.setItem('session_id', session_id);
+    return session_id;
+  } catch (error) {
+    console.error('Failed to create a session ID.', error);
+    throw error;
   }
 };
