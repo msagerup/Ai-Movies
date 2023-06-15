@@ -33,10 +33,7 @@ export const tmdbApi = createApi({
     }),
     // Get Movie Details
     getMovieDetails: builder.query({
-      query: (movieId) => {
-        console.log('hello', movieId);
-        return `/movie/${movieId}?append_to_response=videos,reviews,credits,similar&api_key=${tmdbApiKey}`;
-      },
+      query: (movieId) => `/movie/${movieId}?append_to_response=videos,reviews,credits,similar&api_key=${tmdbApiKey}`,
     }),
   }),
 });

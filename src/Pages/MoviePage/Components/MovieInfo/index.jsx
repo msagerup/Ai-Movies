@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { 
-  Modal,
+  // Modal,
   Typography,
   Button,
   ButtonGroup,
@@ -12,6 +12,7 @@ import {
   Grow,
 } from '@mui/material';
 
+import Modal from '@mui/material/Modal';
 import {
   Movie as MovieIcon,
   Theaters,
@@ -34,6 +35,9 @@ import Loader from '../../../../Components/Loader/Loader';
 import useStyles from './styles';
 import { minToHoursAndMin } from '../../../../helpers/convert';
 import { setgenreIdOrCategoryName } from '../../../../Redux/Features/currentGenreIdOrCategory';
+import MovieList from '../MovieList';
+import YouTubePlayer from '../../../../Components/YouTubePlayer';
+import UseVideoRatio from '../../../../hooks/UseVideoRatio';
  
 const MovieInfo = () => {
   const classes = useStyles();
@@ -42,8 +46,8 @@ const MovieInfo = () => {
   const { data, error, isFetching } = useGetMovieDetailsQuery(id);
   const [isMovieFavorited, setIsMovieFavorited] = useState(false);
   const [isMovieWatchlisted, setisMovieWatchlisted] = useState(false);
-
-  console.log(data, id, isFetching, error);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { playerWidth, playerHeight } = UseVideoRatio();
 
   if (isFetching) {
     return <Loader size="4rem" display="flex" position="center" />;
@@ -168,6 +172,16 @@ const MovieInfo = () => {
               className={classes.buttonsContainer}
             >
               <ButtonGroup size="small" variant="outlined">
+                {data.videos.results.length > 0 && (
+                <Button
+                  onClick={() => setIsModalOpen(true)}
+                  href="#"
+                  endIcon={<Theaters />}
+                >
+                  Trailer
+                </Button>
+                )}
+                
                 <Button 
                   target="_blank" 
                   rel="noopener noreferrer"
@@ -184,13 +198,7 @@ const MovieInfo = () => {
                 >
                   IMDB
                 </Button>
-                <Button
-                  onClick={() => setOpen(true)}
-                  href="#"
-                  endIcon={<Theaters />}
-                >
-                  Trailer
-                </Button>
+               
               </ButtonGroup>
             </Grid>
             <Grid item xs={12} sm={6} className={classes.buttonsContainer}>
@@ -243,11 +251,26 @@ const MovieInfo = () => {
         <Typography variant="h3" gutterBottom align="center">
           You might also like
         </Typography>
-        {data?.similar?.results.length > 0 ? data.similar.results.slice(0, 6).map((movie) => (
-          <h2>{movie.title}</h2>
-        )) : <h2>No similar movies found</h2>}
-          
+        {data?.similar?.results.length > 0
+          ? <MovieList movies={data.similar.results.slice(0, 12)} />
+          : <h2>No similar movies found</h2>}
       </Box>
+      {data?.videos?.results?.length > 0 && (
+      <Modal
+        // fullWidth
+        closeAfterTransition
+        className={classes.modal}
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      >
+        <YouTubePlayer 
+          videoId={data.videos.results[0].key}
+          playerHeight={playerHeight}
+          playerWidth={playerWidth}
+        />
+    
+      </Modal>
+      )}
     </Grid>
   );
 };

@@ -14,6 +14,7 @@ module.exports = {
     'no-await-in-loop': 0,
     'no-param-reassign': 0,
     'import/extensions': 0,
+    'no-use-before-define': 0,
     'react/prop-types': 0,
     'linebreak-style': 0,
     'no-trailing-spaces': 0,

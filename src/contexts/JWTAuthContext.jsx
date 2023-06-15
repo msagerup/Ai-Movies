@@ -77,7 +77,6 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     const response = await axios.post(`${process.env.REACT_APP_API}/api/auth/login`, { email, password });
-    console.log(response);
     const { token, user } = response.data;
 
     setSession(token);
