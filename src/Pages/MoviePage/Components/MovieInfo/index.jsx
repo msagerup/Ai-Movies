@@ -7,7 +7,6 @@ import {
   ButtonGroup,
   Grid,
   Box,
-  useMediaQuery,
   Rating,
   Grow,
 } from '@mui/material';
@@ -53,6 +52,10 @@ const MovieInfo = () => {
     return <Loader size="4rem" display="flex" position="center" />;
   }
 
+  if (error) {
+    return <Typography>Could not load data. Something went wrong, please try again or try again later.</Typography>;
+  }
+
   const addToFavorites = () => {
 
   };
@@ -75,7 +78,7 @@ const MovieInfo = () => {
           {data?.tagline} 
         </Typography>
         <Grid item container className={classes.container}>
-          <Box display="flex" align="center">
+          <Box display="flex" align="center" alignItems="centre">
             <Rating readOnly value={data?.vote_average / 2} precision={0.2} />
             <Typography 
               variant="subtitle1"
@@ -85,14 +88,25 @@ const MovieInfo = () => {
               {data?.vote_average.toFixed(1)} / 10 ({data?.vote_count} votes)
             </Typography>
           </Box>
-          <Typography 
-            variant="h6"
-            align="center"
-            gutterBottom
-          >
-            {minToHoursAndMin(data?.runtime)} {data.spoken_languages.length > 0
-              ? ` | ${data?.spoken_languages.map((lang) => lang.iso_639_1).join(', ')}` : ''} 
-          </Typography>
+          <Box display="flex" alignItems="center">
+            <Typography
+              style={{ marginRight: '10px' }}
+              variant="h6"
+              align="center"
+              gutterBottom
+            >
+              {minToHoursAndMin(data?.runtime)}
+            </Typography>
+            <Typography 
+              variant="subtitle1"
+              align="center"
+              gutterBottom
+            >
+              {data.spoken_languages.length > 0
+                ? ` | ${data?.spoken_languages.map((lang) => lang.iso_639_1).join(', ')}` : ''} 
+            </Typography>
+          </Box>
+         
         </Grid>
         <Grid item className={classes.genresContainer}>
           {data?.genres?.map((genre, index) => (

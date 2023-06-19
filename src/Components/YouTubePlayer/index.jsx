@@ -1,8 +1,6 @@
 import React, { useRef, useEffect } from 'react';
-import useStyles from './styles';
 
 const YouTubePlayer = ({ videoId, playerHeight, playerWidth }) => {
-  const classes = useStyles();
   const playerRef = useRef(null);
   const playerInstanceRef = useRef(null);
 

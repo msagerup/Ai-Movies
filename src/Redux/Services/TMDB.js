@@ -35,7 +35,16 @@ export const tmdbApi = createApi({
     getMovieDetails: builder.query({
       query: (movieId) => `/movie/${movieId}?append_to_response=videos,reviews,credits,similar&api_key=${tmdbApiKey}`,
     }),
+    getActorById: builder.query({
+      query: (actorId) => `/person/${actorId}?append_to_response=movie_credits&api_key=${tmdbApiKey}`,
+    }),
   }),
+
 });
 
-export const { useGetMoviesQuery, useGetGenresQuery, useGetMovieDetailsQuery } = tmdbApi;
+export const {
+  useGetMoviesQuery,
+  useGetGenresQuery,
+  useGetMovieDetailsQuery,
+  useGetActorByIdQuery,
+} = tmdbApi;
