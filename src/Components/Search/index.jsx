@@ -5,14 +5,15 @@ import { Search as SearchIcon } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useDebounce } from 'use-debounce';
+import { useLocation } from 'react-router-dom';
 import { setSearchQuery } from '../../Redux/Features/currentGenreIdOrCategory';
-// import { useDebounce } from 'use-debounce';
 import useStyles from './styles.js';
 
 const Search = () => {
   const classes = useStyles();
   const [query, setQuery] = useState('');
   const [debouncedText] = useDebounce(query, 400);
+  const location = useLocation(); 
 
   const dispatch = useDispatch();
 

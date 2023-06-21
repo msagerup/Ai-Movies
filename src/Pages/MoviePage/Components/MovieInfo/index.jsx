@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { 
   // Modal,
@@ -9,6 +9,7 @@ import {
   Box,
   Rating,
   Grow,
+  useMediaQuery,
 } from '@mui/material';
 
 import Modal from '@mui/material/Modal';
@@ -27,9 +28,10 @@ import {
 import { Link, useParams } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
+
 import axios from 'axios';
 import genreIcons from '../../../../assets/genres';
-import { useGetMovieDetailsQuery } from '../../../../Redux/Services/TMDB';
+import { useGetMovieDetailsQuery, useGetListQuery } from '../../../../Redux/Services/TMDB';
 import Loader from '../../../../Components/Loader/Loader';
 import useStyles from './styles';
 import { minToHoursAndMin } from '../../../../helpers/convert';
@@ -37,16 +39,49 @@ import { setgenreIdOrCategoryName } from '../../../../Redux/Features/currentGenr
 import MovieList from '../MovieList';
 import YouTubePlayer from '../../../../Components/YouTubePlayer';
 import UseVideoRatio from '../../../../hooks/UseVideoRatio';
- 
+import { userSelector } from '../../../../Redux/Features/auth';
+
 const MovieInfo = () => {
   const classes = useStyles();
   const { id } = useParams();
+  const { user } = useSelector(userSelector);
   const dispatch = useDispatch();
   const { data, error, isFetching } = useGetMovieDetailsQuery(id);
-  const [isMovieFavorited, setIsMovieFavorited] = useState(false);
-  const [isMovieWatchlisted, setisMovieWatchlisted] = useState(false);
+  const { data: favoriteMovies } = useGetListQuery({ listName: 'favorite/movies', accountId: user.id, sessionId: localStorage.getItem('session_id'), page: 1 });
+  const { data: watchlistMovies } = useGetListQuery({ listName: 'watchlist/movies', accountId: user.id, sessionId: localStorage.getItem('session_id'), page: 1 });
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { playerWidth, playerHeight } = UseVideoRatio();
+  const [isMovieFavorited, setIsMovieFavorited] = useState(false);
+  const [isMovieWatchlisted, setIsMovieWatchlisted] = useState(false);
+
+  useEffect(() => {
+    setIsMovieFavorited(!!favoriteMovies?.results?.find((movie) => movie?.id === data?.id));
+  }, [favoriteMovies, data]);
+
+  useEffect(() => {
+    setIsMovieWatchlisted(!!watchlistMovies?.results?.find((movie) => movie?.id === data?.id));
+  }, [watchlistMovies, data]);
+
+  const addToFavorites = async () => {
+    await axios.post(`https://api.themoviedb.org/3/account/${user.id}/favorite?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${localStorage.getItem('session_id')}`, {
+      media_type: 'movie',
+      media_id: id,
+      favorite: !isMovieFavorited,
+    });
+
+    setIsMovieFavorited((prev) => !prev);
+  };
+
+  const addToWatchlist = async () => {
+    await axios.post(`https://api.themoviedb.org/3/account/${user.id}/watchlist?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${localStorage.getItem('session_id')}`, {
+      media_type: 'movie',
+      media_id: id,
+      watchlist: !isMovieWatchlisted,
+    });
+
+    setIsMovieWatchlisted((prev) => !prev);
+  };
 
   if (isFetching) {
     return <Loader size="4rem" display="flex" position="center" />;
@@ -56,14 +91,16 @@ const MovieInfo = () => {
     return <Typography>Could not load data. Something went wrong, please try again or try again later.</Typography>;
   }
 
-  const addToFavorites = () => {
-
-  };
-
-  const addToWatchlist = () => {};
   return (
     <Grid container className={classes.container}>
-      <Grid item sm={12} lg={4} className={classes.posterContainer}>
+      <Grid 
+        item
+        sm={12}
+        lg={4} 
+        className={classes.posterContainer}
+        // style={!lg ? { display: 'flex',
+        //   marginBottom: '30px' } : {}}
+      >
         <img
           className={classes.poster}
           src={`https://image.tmdb.org/t/p/w500${data?.poster_path}`}
@@ -266,7 +303,7 @@ const MovieInfo = () => {
           You might also like
         </Typography>
         {data?.similar?.results.length > 0
-          ? <MovieList movies={data.similar.results.slice(0, 12)} />
+          ? <MovieList movies={data.similar.results} />
           : <h2>No similar movies found</h2>}
       </Box>
       {data?.videos?.results?.length > 0 && (
