@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   AppBar,
   IconButton,
@@ -25,6 +25,7 @@ import Search from '../Search';
 
 import useStyles from './styles.js';
 import { fetchToken, createSessionId, moviesApi } from '../../utils';
+import { ColorModeContext } from '../../Context/ToggleColorMode';
 
 const token = localStorage.getItem('request_token');
 const sessionIdFromLocalStorage = localStorage.getItem('session_id');
@@ -36,6 +37,8 @@ const NavBar = () => {
   const classes = useStyles();
   const isMobile = useMediaQuery('(max-width: 600px)');
   const theme = useTheme();
+
+  const { toggleColorMode } = useContext(ColorModeContext);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -74,7 +77,7 @@ const NavBar = () => {
               <Menu />
             </IconButton>
           )}
-          <IconButton color="inherit" sx={{ ml: 1 }} onClick={() => {}}>
+          <IconButton color="inherit" sx={{ ml: 1 }} onClick={toggleColorMode}>
             {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
           {!isMobile && <Search />}
