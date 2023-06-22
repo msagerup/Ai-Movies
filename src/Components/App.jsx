@@ -10,7 +10,6 @@ import store from '../Redux/Store';
 
 const App = () => {
   const classes = useStyles();
-
   return (
     <Provider store={store}>
       <ToggleColorMode>
