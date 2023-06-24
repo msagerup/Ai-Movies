@@ -1,27 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Divider,
   List,
   ListItemButton,
   ListItemText,
   ListSubheader,
-
   ListItemIcon,
 } from '@mui/material';
 
 import { useDispatch } from 'react-redux';
 
 import { Link } from 'react-router-dom';
-import { useTheme } from '@mui/material/styles';
 import { setgenreIdOrCategoryName } from '../../Redux/Features/currentGenreIdOrCategory';
 import useStyles from './styles.js';
 import { useGetGenresQuery } from '../../Redux/Services/TMDB.js';
 import Loader from '../Loader/Loader.jsx';
 import genreIcons from '../../assets/genres';
+import filmnerdlogo from '../../assets/images/filmnerd2.png';
 
-const redLogo = 'https://fontmeme.com/permalink/210930/8531c658a743debe1e1aa1a2fc82006e.png';
-
-const blueLogo = 'https://fontmeme.com/permalink/210930/6854ae5c7f76597cf8680e48a2c8a50a.png';
+const logo = filmnerdlogo;
 
 const categories = [
   {
@@ -38,19 +35,22 @@ const categories = [
   },
 ];
 
-const SideBar = () => {
-  const theme = useTheme();
+const SideBar = ({ handleDrawer }) => {
   const classes = useStyles();
   const { data, isLoading } = useGetGenresQuery();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    handleDrawer(false);
+  }, [isLoading]);
 
   return (
     <>
       <Link to="/" className={classes.imageLink}>
         <img
           className={classes.image}
-          src={theme.palette.mode === 'light' ? redLogo : blueLogo}
-          alt="logo"
+          src={logo}
+          alt="Film Nerd Logo"
         />
       </Link>
       <Divider />

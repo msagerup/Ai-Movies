@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Typography, Grid, Grow, Tooltip, Rating } from '@mui/material';
+import { Grid, Grow, Tooltip, Rating, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 import useStyles from './styles.js';
 
@@ -8,7 +8,7 @@ const Movie = ({ movie, index }) => {
   const classes = useStyles();
 
   return (
-    <Grid item xs={12} sm={6} md={4} lg={3} xl={2} className={classes.movie}>
+    <Grid item className={classes.movie}>
       <Grow in key={index} timeout={(index + 1) * 100}>
         <Link className={classes.links} to={`/movie/${movie.id}`}>
           <img
@@ -18,16 +18,16 @@ const Movie = ({ movie, index }) => {
               movie.poster_path
                 ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
                 : 'https://picsum.photos/200/300'
-            }
+            } 
           />
 
-          <Typography variant="h6" className={classes.title}>
+          {/* <Typography variant="h6" className={classes.title}>
             {movie.title}
-          </Typography>
+          </Typography> */}
           <Tooltip disableTouchListener title={`${movie.vote_average} / 10`}>
-            <div>
+            <Box marginTop={1}>
               <Rating readOnly value={movie.vote_average / 2} precision={0.1} />
-            </div>
+            </Box>
           </Tooltip>
         </Link>
       </Grow>

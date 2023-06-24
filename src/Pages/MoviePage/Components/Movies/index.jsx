@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import { Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
@@ -6,6 +6,7 @@ import { useGetMoviesQuery } from '../../../../Redux/Services/TMDB';
 import MovieList from '../MovieList';
 import Loader from '../../../../Components/Loader/Loader';
 import Pagination from '../../../../Components/Pagination';
+import FeaturedMovie from '../MovieHero';
 
 const Movies = () => {
   const [page, setPage] = useState(1);
@@ -32,6 +33,7 @@ const Movies = () => {
 
   return (
     <div style={{ paddingBottom: '30px' }}>
+      <FeaturedMovie movie={data.results[0]} />
       <MovieList movies={data.results} />
       <Pagination currentPage={page} setPage={setPage} totalPages={data.total_pages} />
     </div>

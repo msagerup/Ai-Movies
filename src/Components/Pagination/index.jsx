@@ -6,7 +6,6 @@ import useStyles from './styles';
 const Pagination = ({ currentPage, totalPages, setPage }) => {
   const classes = useStyles();
   const lg = useMediaQuery((theme) => theme.breakpoints.only('lg'));  
-
   const handleChange = (event, value) => {
     setPage(value);
   };

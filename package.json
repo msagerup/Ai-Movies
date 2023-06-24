@@ -1,8 +1,9 @@
 {
-  "name": "filmpire_project",
+  "name": "filmnerd_react_ai",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.16.7",
     "@alan-ai/alan-sdk-web": "^1.8.45",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",

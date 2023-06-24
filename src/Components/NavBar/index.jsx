@@ -7,7 +7,6 @@ import {
   Button,
   Avatar,
   useMediaQuery,
-  Icon,
 } from '@mui/material';
 import {
   Menu,
@@ -22,7 +21,6 @@ import { Link } from 'react-router-dom';
 import { setUser, userSelector } from '../../Redux/Features/auth';
 import Sidebar from '../SideBar';
 import Search from '../Search';
-
 import useStyles from './styles.js';
 import { fetchToken, createSessionId, moviesApi } from '../../utils';
 import { ColorModeContext } from '../../Context/ToggleColorMode';
@@ -33,7 +31,6 @@ const sessionIdFromLocalStorage = localStorage.getItem('session_id');
 const NavBar = () => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const { user, isAuthenticated } = useSelector(userSelector);
-  // const { user } = useSelector(userSelector);
   const classes = useStyles();
   const isMobile = useMediaQuery('(max-width: 600px)');
   const theme = useTheme();
@@ -55,12 +52,17 @@ const NavBar = () => {
           }
         }
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error((error));
       }
     };
 
     logInUser();
   }, [token, sessionIdFromLocalStorage, dispatch]);
+
+  const handleDrawer = (isOpen) => {
+    setIsMobileOpen(isOpen);
+  };
 
   return (
     <>
@@ -71,7 +73,7 @@ const NavBar = () => {
               color="inherit"
               edge="start"
               style={{ outline: 'none' }}
-              onClick={() => setIsMobileOpen((prevIsMobileOpen) => !prevIsMobileOpen)}
+              onClick={() => handleDrawer(!isMobileOpen)}
               className={classes.menuButton}
             >
               <Menu />
@@ -113,18 +115,18 @@ const NavBar = () => {
               variant="temporary"
               anchor="right"
               open={isMobileOpen}
-              onClose={() => setIsMobileOpen((prevIsMobileOpen) => !prevIsMobileOpen)}
+              onClick={() => handleDrawer(!isMobileOpen)}
               classes={{ paper: classes.drawerPaper }}
               ModalProps={{ keepMounted: true }}
             >
-              <Sidebar setIsMobileOpen={setIsMobileOpen} />
+              <Sidebar handleDrawer={handleDrawer} />
             </Drawer>
           ) : (
             <Drawer
               classes={{ paper: classes.drawerPaper }}
               variant="permanent"
             >
-              <Sidebar setMobileOpen={setIsMobileOpen} />
+              <Sidebar handleDrawer={handleDrawer} />
             </Drawer>
           )}
         </nav>

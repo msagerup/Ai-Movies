@@ -10,4 +10,4 @@ export default makeStyles((theme) => ({
       justifyContent: 'center',
     },
   },
-}));
+})); 

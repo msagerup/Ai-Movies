@@ -7,7 +7,10 @@ export default makeStyles((theme) => ({
     padding: '10px 0',
   },
   image: {
-    width: '60%',
+    width: '50%',
+    [theme.breakpoints.down('md')]: {
+      width: '30%',  
+    },
   },
   links: {
     color: theme.palette.text.primary,
