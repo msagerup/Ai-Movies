@@ -2,11 +2,14 @@ import { makeStyles } from '@mui/styles';
 
 export default makeStyles((theme) => ({
   featuredCardContainer: {
+    zIndex: 10,
     marginBottom: '20px',
     display: 'flex',
     justifyContent: 'center',
-    height: '490px',
+    // height: '490px',
+    aspectRatio: '16 / 9 !important',
     textDecoration: 'none',
+    boxShadow: theme.palette.mode === 'dark' ? '0px 17px 16px 0px rgba(0,0,0,1)' : ' 0px 17px 16px 0px rgba(140,140,140,1)',
   },
   card: {
     width: '100%',
@@ -43,4 +46,16 @@ export default makeStyles((theme) => ({
       // background-color: #00000069;
     },
   },
+
+  override: {
+    zIndex: 5,
+    backgroundColor: theme.palette.mode === 'dark' ? '#2d2d2d' : '#dcdcdc',
+    position: 'relative',
+    width: '95% !important',  
+    boxShadow: theme.palette.mode === 'dark' ? '0px 17px 16px 0px rgba(0,0,0,1)' : ' 0px 17px 16px 0px rgba(140,140,140,1)',
+    paddingTop: '100px',
+    top: '-40px',
+    paddingBottom: '60px',  
+  },
+  
 }));

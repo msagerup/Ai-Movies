@@ -19,12 +19,11 @@ const Search = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (location.pathname !== 'search') {
-      navigate('/');
-    }
-
     if (debouncedText) {
       dispatch(setSearchQuery(debouncedText));
+      if (location.pathname !== 'search') {
+        navigate('/');
+      }
     }
   }, [debouncedText, dispatch]);
 

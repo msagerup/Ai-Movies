@@ -11,7 +11,7 @@ export default makeStyles((theme) => ({
     },
   },
   poster: {
-    borderRadius: '20px',
+    borderRadius: '10px',
     boxShadow: '0.5em 1em 1em rgb(64, 64, 70)',
     width: '100%',
     [theme.breakpoints.down('md')]: {

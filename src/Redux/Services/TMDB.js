@@ -28,12 +28,12 @@ export const tmdbApi = createApi({
           return `/discover/movie?with_genres=${genreIdOrCategoryName}&page=${page}&api_key=${tmdbApiKey}`;
         }
         // Get popular movies
-        return `/movie/popular?page=${page}&api_key=${tmdbApiKey}`;
+        return `/trending/movie/day?page=${page}&api_key=${tmdbApiKey}`;
       },
     }),
     // Get Movie Details
     getMovieDetails: builder.query({
-      query: (movieId) => `/movie/${movieId}?append_to_response=videos,reviews,credits,similar&api_key=${tmdbApiKey}`,
+      query: (movieId) => `/movie/${movieId}?append_to_response=videos,reviews,credits,images,similar&api_key=${tmdbApiKey}`,
     }),
     getActorById: builder.query({
       query: (actorId) => `/person/${actorId}?append_to_response=movie_credits&api_key=${tmdbApiKey}`,

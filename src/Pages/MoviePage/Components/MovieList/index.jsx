@@ -7,6 +7,11 @@ const MovieList = ({ movies, pageViewOverride }) => {
 
   const numberOfMovies = lg ? 12 : 16;
 
+  // TODO:
+  // 1. On hover, set state to redux in MovieDetails slice.
+  // To show info in MovieHero component.
+  // Should also add this feature from the Movie component. (first load)
+
   return (
     <Grid
       spacing={1}
