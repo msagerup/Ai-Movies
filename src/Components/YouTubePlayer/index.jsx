@@ -12,8 +12,6 @@ const YouTubePlayer = ({ videoId, playerHeight, playerWidth }) => {
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
   }, []);
 
-  console.log(videoId, 'videoId');
-
   useEffect(() => {
     if (window.YT) {
       createPlayer();

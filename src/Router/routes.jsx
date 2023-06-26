@@ -4,6 +4,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import { MainLayout } from '../Layout';
 import { Movies, MovieInfo, Actors, Profile } from '../Pages';
 import ErrorPage from '../Components/ErrorPage.jsx';
+import MoviePage from '../Pages/MoviePage/index.jsx';
 
 const routes = createBrowserRouter([
   {
@@ -13,7 +14,7 @@ const routes = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Movies />,
+        element: <MoviePage />,
       },
       {
         path: 'approved',

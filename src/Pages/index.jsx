@@ -4,3 +4,4 @@ export { default as MovieInfo } from './MoviePage/Components/MovieInfo';
 export { default as Profile } from './ProfilePage';
 export { default as MovieList } from './MoviePage/Components/MovieList';
 export { default as Movie } from './MoviePage/Components/Movie';
+

@@ -23,6 +23,7 @@ const Movie = ({ movie, index }) => {
     // if there is a timeout, clear it
     
     dispatch(setMovieDetails(data));
+    
     if (timeOutRef.current) clearTimeout(timeOutRef.current);
     // set a timeout to dispatch the movie details
     timeOutRef.current = setTimeout(() => {

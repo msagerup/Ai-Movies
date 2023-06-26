@@ -125,19 +125,20 @@ const MovieInfo = () => {
             />
           </>
         ) : (
-          <FeaturedMovie
-            movie={data}
-            override={(
-              <MovieCompDetails
-                data={data} 
-                addToFavorites={addToFavorites}
-                addToWatchlist={addToWatchlist}
-                isMovieFavorited={isMovieFavorited}
-                isMovieWatchlisted={isMovieWatchlisted}
-                setIsModalOpen={setIsModalOpen}
-              />
-)}
-          />
+          <p>temp fpr featured movie comp</p>
+        //           <FeaturedMovie
+        //             movie={data}
+        //             override={(
+        //               <MovieCompDetails
+        //                 data={data} 
+        //                 addToFavorites={addToFavorites}
+        //                 addToWatchlist={addToWatchlist}
+        //                 isMovieFavorited={isMovieFavorited}
+        //                 isMovieWatchlisted={isMovieWatchlisted}
+        //                 setIsModalOpen={setIsModalOpen}
+        //               />
+        // )}
+        //           />
         ) }
         
         {/*  */}

@@ -3,8 +3,6 @@ import React, { useEffect, useState } from 'react';
 const UseElmDimentions = (elmRef) => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
-  console.log('elmRef: ', elmRef);
-
   useEffect(() => {
     function handleResize() {
       if (elmRef.current) {
