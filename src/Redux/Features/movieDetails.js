@@ -1,4 +1,17 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, unwrapResult } from '@reduxjs/toolkit';
+import { tmdbApi } from '../Services/TMDB';
+
+console.log('HOW MANY TIME IS THIS RUNNING');
+
+// This is triggered from the onMouse enter event in the Movie comp.
+export const fetchMovieDetails = createAsyncThunk(
+  'movieDetails/fetchMovieDetails',
+  async (movieid, thunkAPI) => {
+    const result = await thunkAPI.dispatch(tmdbApi.endpoints.getMovieDetails.initiate(movieid));
+    return result.data;
+  },
+  
+);
 
 const initialState = {
   movieDetails: {},
@@ -17,12 +30,16 @@ export const movieDetails = createSlice({
     },
 
   },
- 
+  // Sets the state to the payload,(fetchMovieDetails function).
+  extraReducers: {
+    [fetchMovieDetails.fulfilled]: (state, action) => {
+      state.movieDetails = action.payload;  
+    },
+  },
 });
 
 export default movieDetails.reducer;
 
-export const detailedMovieSelector = (state) => state.movieDetails;
 export const { setMovieDetails, setMouseHoverStatus } = movieDetails.actions;
 
 // Selectors

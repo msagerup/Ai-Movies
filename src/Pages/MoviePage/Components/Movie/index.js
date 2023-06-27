@@ -4,25 +4,27 @@ import { Grid, Grow, Tooltip, Rating, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import useStyles from './styles.js';
-import { setMouseHoverStatus, setMovieDetails } from '../../../../Redux/Features/movieDetails.js';
-import { useGetMovieDetailsQuery } from '../../../../Redux/Services/TMDB.js';
+import { fetchMovieDetails, setMouseHoverStatus } from '../../../../Redux/Features/movieDetails.js';
 
-const Movie = ({ movie, index }) => {
+const Movie = ({ movie, index, shouldFetchMovieDetails }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { data, error, isFetching } = useGetMovieDetailsQuery(movie.id);
+  // const { data, error, isFetching } = useGetMovieDetailsQuery(movie.id);
   const timeOutRef = useRef(null);
 
+  // console.log(!!shouldFetchMovieDetails, 'hello', index);
+ 
   // if user exits before the timeout, clear the timeout. 
   useEffect(() => () => {
     if (timeOutRef.current) clearTimeout(timeOutRef.current);
   }, []);
 
   const handleOnMouseEnter = () => {
-    if (error || isFetching || !data) return;
+    // if (error || isFetching || !data) return;
+    if (!shouldFetchMovieDetails) return;
     // if there is a timeout, clear it
     
-    dispatch(setMovieDetails(data));
+    dispatch(fetchMovieDetails(movie.id));
     
     if (timeOutRef.current) clearTimeout(timeOutRef.current);
     // set a timeout to dispatch the movie details
@@ -65,4 +67,4 @@ const Movie = ({ movie, index }) => {
   );
 };
 
-export default Movie;
+export default React.memo(Movie);

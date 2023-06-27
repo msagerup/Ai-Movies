@@ -34,6 +34,7 @@ export const tmdbApi = createApi({
     // Get Movie Details
     getMovieDetails: builder.query({
       query: (movieId) => `/movie/${movieId}?append_to_response=videos,reviews,credits,images,similar&api_key=${tmdbApiKey}`,
+      keepUnusedDataFor: 5,
     }),
     getActorById: builder.query({
       query: (actorId) => `/person/${actorId}?append_to_response=movie_credits&api_key=${tmdbApiKey}`,

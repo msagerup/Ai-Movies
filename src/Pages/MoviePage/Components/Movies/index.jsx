@@ -1,21 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 
 import { Typography } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useGetMoviesQuery } from '../../../../Redux/Services/TMDB';
 import MovieList from '../MovieList';
 import Loader from '../../../../Components/Loader/Loader';
-import Pagination from '../../../../Components/Pagination';
-import FeaturedMovie from '../MovieHero';
+import { selectPage } from '../../../../Redux/Features/pagination';
+import { fetchMovieDetails } from '../../../../Redux/Features/movieDetails';
+import { randomSingleFromArr } from '../../../../helpers/randomSingleFromArr';
 
 const Movies = () => {
-  const [page, setPage] = useState(1);
+  const page = useSelector(selectPage);
+  const dispatch = useDispatch();
   const { genreIdOrCategoryName, searchQuery } = useSelector((state) => state.currentGenreIdOrCategory);
   const { data, error, isFetching } = useGetMoviesQuery({
     genreIdOrCategoryName,
     searchQuery,
     page,
   });
+
+  const firstMovieForHeroComp = randomSingleFromArr(data?.results);
+
+  useEffect(() => {
+    if (firstMovieForHeroComp) {
+      dispatch(fetchMovieDetails(firstMovieForHeroComp.id));
+    }
+  }, [data]);
 
   if (isFetching) {
     return <Loader size="4rem" display="flex" position="center" />;
@@ -27,15 +37,13 @@ const Movies = () => {
         Sorry, there has been an error, try to reload the page or try again
         later.
       </Typography>
-
     );
   }
 
   return (
     <div style={{ paddingBottom: '30px' }}>
-      <MovieList movies={data.results} />
-      <Pagination currentPage={page} setPage={setPage} totalPages={data.total_pages} />
+      <MovieList movies={data.results} shouldFetchMovieDetails />
     </div>
   );
 };
-export default React.memo(Movies);
+export default Movies;

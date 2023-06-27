@@ -11,18 +11,13 @@ import UseElmDimentions from '../../../../hooks/UseElmDimentions';
 import useProgressiveImage from '../../../../hooks/UseProgressiveImage';
 
 const FeaturedMovie = ({ override }) => {
-  // console.log('🚀 ~ file: index.jsx:10 ~ FeaturedMovie ~ movie:', movie);
   const classes = useStyles();
   const movieDetails = useSelector(selectMovieDetails);
   const isLongMouseHover = useSelector(selectIsLongMouseHover);
   const featuredCardContainer = useRef(null);
-  const { width, height } = UseElmDimentions(featuredCardContainer);
-
-  // console.log('🚀 ~ file: index.jsx:24 ~ FeaturedMovie ~ currentSrc:', { currentSrc });
-  
+  const { width, height } = UseElmDimentions(featuredCardContainer);  
   const [backdropImage, setBackdropImage] = useState('');
   const [trailer, setTrailer] = useState('');
-  // console.log('🚀 ~ file: index.jsx:25 ~ FeaturedMovie ~ trailer:', trailer);
   
   useEffect(() => {
     setBackdropImage(`${randomSingleFromArr(movieDetails?.images?.backdrops)?.file_path}`);
@@ -31,7 +26,6 @@ const FeaturedMovie = ({ override }) => {
   
   const { currentSrc, loading } = useProgressiveImage(backdropImage, 'backdrop');
   if (!movieDetails) return null;
-  // console.log(movie);
   // TODO:
   // 1  Get movie info from redux store. (DONE)
   // 2. Generate random number to get random backdrop image. (DONE)
@@ -43,7 +37,6 @@ const FeaturedMovie = ({ override }) => {
   // 9. When not playing a movie trailer, carusell should be able to flipp images
 
   // TODO: SHIT I NEED TO BE ABLE TO HANDLE the MOVIE from props too..
-  console.log('HOW MANY TIME IS THIS LOADING?');
 
   return (
     <div style={{ height: '100%' }}>
@@ -70,6 +63,7 @@ const FeaturedMovie = ({ override }) => {
                 <CardMedia
                   alt={movieDetails?.title}
                   image={currentSrc}
+                  component="img"
                   title={movieDetails.title}
                   className={classes.cardMedia}
                   style={{
@@ -94,9 +88,9 @@ const FeaturedMovie = ({ override }) => {
         </div>
       </Container>
       )}
-      
+   
     </div>
   );
 };
 
-export default React.memo(FeaturedMovie);
+export default FeaturedMovie;

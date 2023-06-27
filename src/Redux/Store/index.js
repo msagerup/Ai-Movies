@@ -3,6 +3,7 @@ import { tmdbApi } from '../Services/TMDB';
 import genreIdOrCategoryReducer from '../Features/currentGenreIdOrCategory';
 import authReducer from '../Features/auth';
 import movieDetailsReducer from '../Features/movieDetails';
+import paginationReducer from '../Features/pagination';
 
 export default configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export default configureStore({
     currentGenreIdOrCategory: genreIdOrCategoryReducer,
     auth: authReducer,
     movieDetails: movieDetailsReducer,
+    pagination: paginationReducer,
 
   },
   middleware: (getDefaultMiddleware) =>
