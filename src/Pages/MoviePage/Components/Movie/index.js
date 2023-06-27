@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 
 import { Grid, Grow, Tooltip, Rating, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -6,35 +6,39 @@ import { useDispatch } from 'react-redux';
 import useStyles from './styles.js';
 import { fetchMovieDetails, setMouseHoverStatus } from '../../../../Redux/Features/movieDetails.js';
 
-const Movie = ({ movie, index, shouldFetchMovieDetails }) => {
+const Movie = ({ movie, index, shouldFetchMovieDetails, activeMovieId }) => {
+  // console.log('🚀 ~ file: index.js:10 ~ Movie ~ activeMovieId:', activeMovieId);
   const classes = useStyles();
   const dispatch = useDispatch();
-  // const { data, error, isFetching } = useGetMovieDetailsQuery(movie.id);
   const timeOutRef = useRef(null);
 
-  // console.log(!!shouldFetchMovieDetails, 'hello', index);
- 
-  // if user exits before the timeout, clear the timeout. 
+  const isActiveMovie = useMemo(() => activeMovieId === movie.id, [activeMovieId, movie.id]);
+
   useEffect(() => () => {
-    if (timeOutRef.current) clearTimeout(timeOutRef.current);
+    // Stops the youtube player to play automaticly when changing category
+    if (!isActiveMovie) dispatch(setMouseHoverStatus(false));
+    return () => {
+      // if user exits before the timeout, clear the timeout. 
+      if (timeOutRef.current) clearTimeout(timeOutRef.current);
+    };
   }, []);
 
+  // setMouseHoverStatus controlles the youtube player, when to play.
   const handleOnMouseEnter = () => {
-    // if (error || isFetching || !data) return;
-    if (!shouldFetchMovieDetails) return;
+    if (!shouldFetchMovieDetails || !movie?.id || isActiveMovie) return;
     // if there is a timeout, clear it
-    
     dispatch(fetchMovieDetails(movie.id));
     
     if (timeOutRef.current) clearTimeout(timeOutRef.current);
     // set a timeout to dispatch the movie details
     timeOutRef.current = setTimeout(() => {
       dispatch(setMouseHoverStatus(true));
-    }, 3000);
+    }, 2000);
   };
 
   const handleOnMouseLeave = () => {
     if (timeOutRef.current) clearTimeout(timeOutRef.current);
+    if (isActiveMovie) return;
     dispatch(setMouseHoverStatus(false));
   };
   

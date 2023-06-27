@@ -10,7 +10,19 @@ import YouTubePlayer from '../../../../Components/YouTubePlayer';
 import UseElmDimentions from '../../../../hooks/UseElmDimentions';
 import useProgressiveImage from '../../../../hooks/UseProgressiveImage';
 
-const FeaturedMovie = ({ override }) => {
+// TODO:
+ 
+// 1. Add volume controll and mute button to youtube player.
+// 2. Fix isses where large image continues to load even if the mouse enters a new card
+
+// 6. Add a button to play trailer. for mobile.
+// 7. ON scroll, container should follow scroll. 
+// 8. navbar should temporary disaper when scrolling down.
+// 9. When not playing a movie trailer, carusell should be able to flipp images
+
+// TODO: SHIT I NEED TO BE ABLE TO HANDLE the MOVIE from props too..
+
+const FeaturedMovie = () => {
   const classes = useStyles();
   const movieDetails = useSelector(selectMovieDetails);
   const isLongMouseHover = useSelector(selectIsLongMouseHover);
@@ -18,6 +30,8 @@ const FeaturedMovie = ({ override }) => {
   const { width, height } = UseElmDimentions(featuredCardContainer);  
   const [backdropImage, setBackdropImage] = useState('');
   const [trailer, setTrailer] = useState('');
+  const playerRef = useRef(null);
+  const youTubeContainerRef = useRef(null);
   
   useEffect(() => {
     setBackdropImage(`${randomSingleFromArr(movieDetails?.images?.backdrops)?.file_path}`);
@@ -26,22 +40,14 @@ const FeaturedMovie = ({ override }) => {
   
   const { currentSrc, loading } = useProgressiveImage(backdropImage, 'backdrop');
   if (!movieDetails) return null;
-  // TODO:
-  // 1  Get movie info from redux store. (DONE)
-  // 2. Generate random number to get random backdrop image. (DONE)
-  // 3. On hover? show movie trailer?  (DONE)
 
-  // 6. Add a button to play trailer. for mobile.
-  // 7. ON scroll, container should follow scroll. 
-  // 8. navbar should temporary disaper when scrolling down.
-  // 9. When not playing a movie trailer, carusell should be able to flipp images
-
-  // TODO: SHIT I NEED TO BE ABLE TO HANDLE the MOVIE from props too..
+  const handleButtonClick = () => {
+    playerRef.current.play(); // Or playerRef.current.pause() to pause
+  };
 
   return (
     <div style={{ height: '100%' }}>
       <Box
-        component={Link} 
         ref={featuredCardContainer} 
         to={`/movie/${movieDetails.id}`} 
         style={{ position: 'sticky !important', top: '30px' }}
@@ -51,11 +57,24 @@ const FeaturedMovie = ({ override }) => {
         <Card className={classes.card} classes={{ root: classes.cardRoot }}>
           {isLongMouseHover && trailer && !loading
             ? (
-              <YouTubePlayer
-                videoId={trailer} 
-                playerHeight={height}
-                playerWidth={width}
-              />
+              <div 
+               
+                style={{ position: 'relative', width: `${width}`, height: `${height}` }}
+              >
+              
+                <YouTubePlayer
+                  ref={playerRef}
+                  videoId={trailer} 
+                  playerWidth={width}
+                  playerHeight={height}
+                />
+                <div style={{ position: 'absolute', top: 0, left: 0 }}>
+                  {/* Your clickable content goes here */}
+                  <button onClick={handleButtonClick}>play</button>
+                  <button onClick={() => playerRef.current.pause()}>Click Me!</button>
+                  <button onClick={() => playerRef.current.mute()}>Click Me!</button>
+                </div>
+              </div>
             )
             : (
               <> 
@@ -81,13 +100,6 @@ const FeaturedMovie = ({ override }) => {
           
         </Card>
       </Box>
-      { override && (
-      <Container className={classes.override}>
-        <div style={{ position: 'relative' }}>
-          {override && override}
-        </div>
-      </Container>
-      )}
    
     </div>
   );

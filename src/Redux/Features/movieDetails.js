@@ -1,8 +1,6 @@
 import { createAsyncThunk, createSlice, unwrapResult } from '@reduxjs/toolkit';
 import { tmdbApi } from '../Services/TMDB';
 
-console.log('HOW MANY TIME IS THIS RUNNING');
-
 // This is triggered from the onMouse enter event in the Movie comp.
 export const fetchMovieDetails = createAsyncThunk(
   'movieDetails/fetchMovieDetails',

@@ -1,11 +1,31 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
 
-const YouTubePlayer = ({ videoId, playerHeight, playerWidth }) => {
+const YouTubePlayer = forwardRef(({
+  videoId,
+  playerHeight,
+  playerWidth,
+  style,
+  muted,
+ 
+}, ref) => {
   const playerRef = useRef(null);
   const playerInstanceRef = useRef(null);
 
+  // Expose methods for controlling the player via the ref
+  useImperativeHandle(ref, () => ({
+    play: () => {
+      playerInstanceRef.current?.playVideo();
+    },
+    pause: () => {
+      playerInstanceRef.current?.pauseVideo();
+    },
+    mute: () => {
+      playerInstanceRef.current?.mute();
+    },
+    // Add any additional control methods you need here
+  }));
+
   useEffect(() => {
-    // This code loads the IFrame Player API code asynchronously.
     const tag = document.createElement('script');
     tag.src = 'https://www.youtube.com/iframe_api';
     const firstScriptTag = document.getElementsByTagName('script')[0];
@@ -16,11 +36,9 @@ const YouTubePlayer = ({ videoId, playerHeight, playerWidth }) => {
     if (window.YT) {
       createPlayer();
     } else {
-      // If not ready, wait for the API to be ready
       window.onYouTubeIframeAPIReady = createPlayer;
     }
     return () => {
-      // Clean up the player if component unmounts
       window.onYouTubeIframeAPIReady = null;
       if (playerInstanceRef.current) {
         playerInstanceRef.current.destroy();
@@ -28,6 +46,15 @@ const YouTubePlayer = ({ videoId, playerHeight, playerWidth }) => {
       }
     };
   }, [videoId, playerWidth, playerHeight]);
+  
+  // This useEffect will mute or unmute the video when the muted prop changes
+  // useEffect(() => {
+  //   if (playerInstanceRef.current) {
+  //     muted 
+  //       ? playerInstanceRef.current.mute() 
+  //       : playerInstanceRef.current.unMute();
+  //   }
+  // }, [muted]);
 
   function createPlayer() {
     playerInstanceRef.current = new window.YT.Player(playerRef.current, {
@@ -37,7 +64,7 @@ const YouTubePlayer = ({ videoId, playerHeight, playerWidth }) => {
       playerVars: {
         controls: 0,
         modestbranding: 1,
-        
+        enablejsapi: 1,
       },
       events: {
         onReady: onPlayerReady,
@@ -45,17 +72,16 @@ const YouTubePlayer = ({ videoId, playerHeight, playerWidth }) => {
     });
   }
 
-  // The API will call this function when the video player is ready.
   function onPlayerReady(event) {
-    // Now it's safe to use the player.
     event.target.playVideo();
   }
 
   return (
     <div>
       <div id="player" ref={playerRef} />
+      <div style={{ position: 'absolute', width: '100%', height: '100%', left: 0, top: 0, pointerEvents: 'none !important' }}></div>
     </div>
   );
-};
+});
 
 export default YouTubePlayer;

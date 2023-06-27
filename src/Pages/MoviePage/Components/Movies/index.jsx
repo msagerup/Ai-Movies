@@ -19,12 +19,14 @@ const Movies = () => {
     page,
   });
 
-  const firstMovieForHeroComp = randomSingleFromArr(data?.results);
+  const randomFirstMovieForHeroComp = randomSingleFromArr(data?.results);
+
+  // TODO: This need some work, card is not rendering as it should. 
+  // its loading inn after movie list data, need to wait here for something..
 
   useEffect(() => {
-    if (firstMovieForHeroComp) {
-      dispatch(fetchMovieDetails(firstMovieForHeroComp.id));
-    }
+    if (!randomFirstMovieForHeroComp?.id) return;
+    dispatch(fetchMovieDetails(randomFirstMovieForHeroComp.id));
   }, [data]);
 
   if (isFetching) {
