@@ -64,7 +64,7 @@ const SideBar = ({ handleDrawer }) => {
               <ListItemIcon>
                 <img
                   src={genreIcons[label.toLowerCase()]}
-                  alt="Logo"
+                  alt={genreIcons[label.toLowerCase()]}
                   className={classes.genreImages}
                 />
               </ListItemIcon>
@@ -85,7 +85,7 @@ const SideBar = ({ handleDrawer }) => {
                 <ListItemIcon>
                   <img
                     src={genreIcons[name.toLowerCase()]}
-                    alt="Logo"
+                    alt={genreIcons[name.toLowerCase()]}
                     className={classes.genreImages}
                   />
                 </ListItemIcon>

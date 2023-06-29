@@ -4,6 +4,7 @@ import genreIdOrCategoryReducer from '../Features/currentGenreIdOrCategory';
 import authReducer from '../Features/auth';
 import movieDetailsReducer from '../Features/movieDetails';
 import paginationReducer from '../Features/pagination';
+import videoPlayerReducer from '../Features/videoPlayerState';
 
 export default configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export default configureStore({
     auth: authReducer,
     movieDetails: movieDetailsReducer,
     pagination: paginationReducer,
+    videoPlayer: videoPlayerReducer,
 
   },
   middleware: (getDefaultMiddleware) =>

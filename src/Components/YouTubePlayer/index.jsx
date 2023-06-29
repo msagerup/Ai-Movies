@@ -1,4 +1,6 @@
 import React, { useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
+import { useDispatch } from 'react-redux';
+import { setVideoPlayerState } from '../../Redux/Features/videoPlayerState';
 
 const YouTubePlayer = forwardRef(({
   videoId,
@@ -6,11 +8,12 @@ const YouTubePlayer = forwardRef(({
   playerWidth,
   style,
   muted,
+  playerContentComp,
  
 }, ref) => {
   const playerRef = useRef(null);
   const playerInstanceRef = useRef(null);
-
+  const dispatch = useDispatch();
   // Expose methods for controlling the player via the ref
   useImperativeHandle(ref, () => ({
     play: () => {
@@ -45,7 +48,7 @@ const YouTubePlayer = forwardRef(({
         playerInstanceRef.current = null;
       }
     };
-  }, [videoId, playerWidth, playerHeight]);
+  }, [videoId, window.YT]);
   
   // This useEffect will mute or unmute the video when the muted prop changes
   // useEffect(() => {
@@ -65,9 +68,11 @@ const YouTubePlayer = forwardRef(({
         controls: 0,
         modestbranding: 1,
         enablejsapi: 1,
+        
       },
       events: {
         onReady: onPlayerReady,
+        onStateChange: onPlayerStateChange,
       },
     });
   }
@@ -76,10 +81,48 @@ const YouTubePlayer = forwardRef(({
     event.target.playVideo();
   }
 
+  function onPlayerStateChange(event) {
+    switch (event.data) {
+      case -1:
+        dispatch(setVideoPlayerState('unstarted'));
+        break;
+      case 0:
+        dispatch(setVideoPlayerState('ended'));
+        break;
+      case 1:
+        dispatch(setVideoPlayerState('playing'));
+        break;
+      case 2:
+        dispatch(setVideoPlayerState('paused'));
+        break;
+      case 3:
+        dispatch(setVideoPlayerState('buffering'));
+        break;
+      case 5:
+        dispatch(setVideoPlayerState('cued'));
+        break;
+      default:
+        break;
+    }
+
+    console.log(event, 'EVENT OF VIDEO');
+  }
+ 
+  const PlayerContent = playerContentComp;
+  // console.log(PlayerContent);
+
   return (
     <div>
       <div id="player" ref={playerRef} />
+   
       <div style={{ position: 'absolute', width: '100%', height: '100%', left: 0, top: 0, pointerEvents: 'none !important' }}></div>
+   
+      {PlayerContent 
+      && window.YT && (
+      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
+        <PlayerContent player={ref} width={playerWidth} height={playerHeight} />
+      </div>
+      )}
     </div>
   );
 });

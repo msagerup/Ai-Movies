@@ -9,6 +9,7 @@ import { randomSingleFromArr } from '../../../../helpers/randomSingleFromArr';
 import YouTubePlayer from '../../../../Components/YouTubePlayer';
 import UseElmDimentions from '../../../../hooks/UseElmDimentions';
 import useProgressiveImage from '../../../../hooks/UseProgressiveImage';
+import PlayerContent from '../../../../Components/YouTubePlayer/PlayerContent';
 
 // TODO:
  
@@ -37,8 +38,15 @@ const FeaturedMovie = () => {
     setBackdropImage(`${randomSingleFromArr(movieDetails?.images?.backdrops)?.file_path}`);
     setTrailer(`${randomSingleFromArr(movieDetails?.videos?.results)?.key}`);
   }, [movieDetails]);
+
+  // console.log('movieDetails', movieDetails);filePath, lowRes, highRes
   
-  const { currentSrc, loading } = useProgressiveImage(backdropImage, 'backdrop');
+  const { currentSrc, loading } = useProgressiveImage({
+    filePath: backdropImage,
+    type: 'backdrop',
+    highRes: 'original',
+    lowRes: 'w300',
+  });
   if (!movieDetails) return null;
 
   const handleButtonClick = () => {
@@ -56,9 +64,9 @@ const FeaturedMovie = () => {
       >
         <Card className={classes.card} classes={{ root: classes.cardRoot }}>
           {isLongMouseHover && trailer && !loading
+
             ? (
               <div 
-               
                 style={{ position: 'relative', width: `${width}`, height: `${height}` }}
               >
               
@@ -67,18 +75,17 @@ const FeaturedMovie = () => {
                   videoId={trailer} 
                   playerWidth={width}
                   playerHeight={height}
+                  playerContentComp={PlayerContent}
                 />
-                <div style={{ position: 'absolute', top: 0, left: 0 }}>
-                  {/* Your clickable content goes here */}
-                  <button onClick={handleButtonClick}>play</button>
-                  <button onClick={() => playerRef.current.pause()}>Click Me!</button>
-                  <button onClick={() => playerRef.current.mute()}>Click Me!</button>
-                </div>
+                {/* <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
+                  <PlayerContent player={playerRef.current} width={width} height={height} />
+                </div> */}
+                
               </div>
             )
             : (
               <> 
-                
+                {currentSrc && (
                 <CardMedia
                   alt={movieDetails?.title}
                   image={currentSrc}
@@ -90,6 +97,7 @@ const FeaturedMovie = () => {
                     transition: 'opacity .15s linear',
                   }}
                 />
+                )}
            
                 <CardContent className={classes.cardContent} classes={{ root: classes.cardContentRoot }}>
                   <Typography variant="h5" gutterBottom>{movieDetails.title}</Typography>
