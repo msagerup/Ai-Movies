@@ -14,6 +14,7 @@ export const fetchMovieDetails = createAsyncThunk(
 const initialState = {
   movieDetails: {},
   isLongMouseHover: false,
+  movieTrailer: {},
 };
 
 export const movieDetails = createSlice({
@@ -26,6 +27,9 @@ export const movieDetails = createSlice({
     setMouseHoverStatus: (state, action) => {
       state.isLongMouseHover = action.payload;
     },
+    setPlayMovieTrailer: (state, action) => {
+      state.movieTrailer = action.payload;
+    }
 
   },
   // Sets the state to the payload,(fetchMovieDetails function).
@@ -38,8 +42,10 @@ export const movieDetails = createSlice({
 
 export default movieDetails.reducer;
 
-export const { setMovieDetails, setMouseHoverStatus } = movieDetails.actions;
+export const { setMovieDetails, setMouseHoverStatus, setPlayMovieTrailer } = movieDetails.actions;
 
 // Selectors
 export const selectMovieDetails = (state) => state.movieDetails.movieDetails;
 export const selectIsLongMouseHover = (state) => state.movieDetails.isLongMouseHover;
+export const selectMovieTrailer = (state) => state.movieDetails.movieTrailer;
+

@@ -1,18 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useMediaQuery } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Movie from '../Movie/index.js';
-import { selectMovieDetails } from '../../../../Redux/Features/movieDetails.js';
+import { fetchMovieDetails, selectMovieDetails } from '../../../../Redux/Features/movieDetails.js';
 import useStyles from './styles.js';
+import { randomSingleFromArr } from '../../../../helpers/randomSingleFromArr.js';
 
 const MovieList = ({ movies, pageViewOverride, shouldFetchMovieDetails }) => {
   const lg = useMediaQuery((theme) => theme.breakpoints.only('lg'));
   const classes = useStyles();
   const numberOfMovies = lg ? 12 : 10;
+  const dispatch = useDispatch();
 
   const activeMovie = useSelector(selectMovieDetails);
-  
+
+  // useEffect(() => {
+  //   if (!movies[0].id) return;
+
+  //   // console.log(movies);
+  //   const randomFirstMovieForHeroComp = randomSingleFromArr(movies);
+ 
+  // useEffect(() => {
+  //   if (!movies?.[0].id) return;
+  //   const randomFirstMovieForHeroComp = randomSingleFromArr(movies);
+  //   dispatch(fetchMovieDetails(randomFirstMovieForHeroComp?.id));
+  // }, [movies?.[0].id]);
+
   // TODO:
   // 1. On hover, set state to redux in MovieDetails slice.
   // To show info in MovieHero component.
@@ -23,7 +37,7 @@ const MovieList = ({ movies, pageViewOverride, shouldFetchMovieDetails }) => {
   return (
     <Grid
       container
-      columnSpacing={1}
+      spacing={1}
       columns={{
         xs: 2,
         sm: 3,
@@ -38,7 +52,7 @@ const MovieList = ({ movies, pageViewOverride, shouldFetchMovieDetails }) => {
     >
       {/* {movies.slice(1, pageViewOverride || numberOfMovies).map((movie, i) => ( */}
 
-      {movies.slice(0, 9).map((movie, i) => (
+      {movies.slice(0, 20).map((movie, i) => (
         <Grid 
           key={movie.id} 
           xs={1}

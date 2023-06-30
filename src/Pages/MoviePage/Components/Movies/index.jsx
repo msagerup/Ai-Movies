@@ -19,8 +19,6 @@ const Movies = () => {
     page,
   });
 
-  console.log('data', data);  
-
   useEffect(() => {
     if (!data?.results?.length) return;
     const randomFirstMovieForHeroComp = randomSingleFromArr(data?.results);

@@ -3,6 +3,7 @@ import { Box, Typography, Card, CardContent, CardMedia, Container, Skeleton } fr
 import { Link } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
+import { Affix } from 'antd';
 import useStyles from './styles';
 import { selectIsLongMouseHover, selectMovieDetails } from '../../../../Redux/Features/movieDetails';
 import { randomSingleFromArr } from '../../../../helpers/randomSingleFromArr';
@@ -10,6 +11,8 @@ import YouTubePlayer from '../../../../Components/YouTubePlayer';
 import UseElmDimentions from '../../../../hooks/UseElmDimentions';
 import useProgressiveImage from '../../../../hooks/UseProgressiveImage';
 import PlayerContent from '../../../../Components/YouTubePlayer/PlayerContent';
+
+
 
 // TODO:
  
@@ -33,13 +36,25 @@ const FeaturedMovie = () => {
   const [trailer, setTrailer] = useState('');
   const playerRef = useRef(null);
   const youTubeContainerRef = useRef(null);
+  const timeOutRef = useRef(null);
+  const [isMouseHover,setIsMouseHover ] = useState(false)
+
+// If no youtube script load it
+
+
+
+  useEffect(() => {
+    // Clenup timout of when components demounts, if it's running
+    return () => {
+      if (timeOutRef.current) clearTimeout(timeOutRef.current);
+    }
+  },[])
+  
   
   useEffect(() => {
     setBackdropImage(`${randomSingleFromArr(movieDetails?.images?.backdrops)?.file_path}`);
     setTrailer(`${randomSingleFromArr(movieDetails?.videos?.results)?.key}`);
   }, [movieDetails]);
-
-  // console.log('movieDetails', movieDetails);filePath, lowRes, highRes
   
   const { currentSrc, loading } = useProgressiveImage({
     filePath: backdropImage,
@@ -49,21 +64,40 @@ const FeaturedMovie = () => {
   });
   if (!movieDetails) return null;
 
-  const handleButtonClick = () => {
-    playerRef.current.play(); // Or playerRef.current.pause() to pause
+  // const handleButtonClick = () => {
+  //   playerRef.current.play(); // Or playerRef.current.pause() to pause
+  // };
+
+  const handleOnMouseEnter = () => {
+    // If timeout is already set, clear it
+    clearTimeout(timeOutRef.current);
+    
+    // If the user hovers for more than 1 second, then show the trailer
+    timeOutRef.current = setTimeout(() => {
+        setIsMouseHover(true)
+    }, 1000);
+   
+  };
+
+  const handleOnMouseLeave = () => {
+    // If timeout is already set, clear it
+    clearTimeout(timeOutRef.current);
+    setIsMouseHover(false);
   };
 
   return (
-    <div style={{ height: '100%' }}>
+    <Affix offsetTop={20}>
       <Box
         ref={featuredCardContainer} 
         to={`/movie/${movieDetails.id}`} 
         style={{ position: 'sticky !important', top: '30px' }}
         className={classes.featuredCardContainer}
+        onMouseEnter={handleOnMouseEnter} 
+        onMouseLeave={handleOnMouseLeave}
         
       >
         <Card className={classes.card} classes={{ root: classes.cardRoot }}>
-          {isLongMouseHover && trailer && !loading
+          {isMouseHover && trailer && !loading
 
             ? (
               <div 
@@ -89,7 +123,7 @@ const FeaturedMovie = () => {
                 <CardMedia
                   alt={movieDetails?.title}
                   image={currentSrc}
-                  component="img"
+                  // component="img"
                   title={movieDetails.title}
                   className={classes.cardMedia}
                   style={{
@@ -109,7 +143,7 @@ const FeaturedMovie = () => {
         </Card>
       </Box>
    
-    </div>
+    </Affix>
   );
 };
 
