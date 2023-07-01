@@ -29,7 +29,7 @@ export const movieDetails = createSlice({
     },
     setPlayMovieTrailer: (state, action) => {
       state.movieTrailer = action.payload;
-    }
+    },
 
   },
   // Sets the state to the payload,(fetchMovieDetails function).

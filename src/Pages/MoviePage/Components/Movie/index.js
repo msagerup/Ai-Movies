@@ -7,7 +7,7 @@ import axios from 'axios';
 import { useTheme } from '@emotion/react';
 
 import useStyles from './styles.js';
-import { fetchMovieDetails, setMouseHoverStatus, setMovieDetails , setPlayMovieTrailer} from '../../../../Redux/Features/movieDetails.js';
+import { fetchMovieDetails, setMouseHoverStatus, setMovieDetails, setPlayMovieTrailer } from '../../../../Redux/Features/movieDetails.js';
 import useProgressiveImage from '../../../../hooks/UseProgressiveImage.jsx';
 import { randomSingleFromArr } from '../../../../helpers/randomSingleFromArr.js';
 import { useGetMovieDetailsQuery } from '../../../../Redux/Services/TMDB.js';
@@ -70,11 +70,10 @@ const Movie = ({ movie, index, shouldFetchMovieDetails, activeMovieId }) => {
     // if (isActiveMovie) return;
     // dispatch(setMouseHoverStatus(false));
   };
-  const handleOnClick= () => {
-
+  const handleOnClick = () => {
     // console.log(movieDetails, 'movieDetails.id')
     dispatch(setPlayMovieTrailer(randomSingleFromArr(movieDetails?.videos?.results)));
-  }
+  };
 
   return (
     <Card

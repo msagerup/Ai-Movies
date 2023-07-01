@@ -42,7 +42,7 @@ const MovieList = ({ movies, pageViewOverride, shouldFetchMovieDetails }) => {
         xs: 2,
         sm: 3,
         md: 4,
-        lg: 3,
+        lg: 5,
       }}
       disableEqualOverflow
       sx={{

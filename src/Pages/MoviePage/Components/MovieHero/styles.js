@@ -6,11 +6,15 @@ export default makeStyles((theme) => ({
     marginBottom: '20px',
     display: 'flex',
     justifyContent: 'center',
-    // height: '490px',
+    
     aspectRatio: '16 / 9 !important',
     textDecoration: 'none',
     boxShadow: theme.palette.mode === 'dark' ? '0px 17px 16px 0px rgba(0,0,0,1)' : ' 0px 17px 16px 0px rgba(140,140,140,1)',
+    [theme.breakpoints.up('xl')]: {
+      aspectRatio: '16 / 9 !important',
+    },
   },
+  
   card: {
     width: '100%',
     display: 'flex',

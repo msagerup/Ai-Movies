@@ -24,6 +24,7 @@ import Search from '../Search';
 import useStyles from './styles.js';
 import { fetchToken, createSessionId, moviesApi } from '../../utils';
 import { ColorModeContext } from '../../Context/ToggleColorMode';
+import HideOnScroll from '../HideOnScroll';
 
 const token = localStorage.getItem('request_token');
 const sessionIdFromLocalStorage = localStorage.getItem('session_id');
@@ -32,7 +33,7 @@ const NavBar = () => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const { user, isAuthenticated } = useSelector(userSelector);
   const classes = useStyles();
-  const isMobile = useMediaQuery('(max-width: 600px)');
+  const isMobile = useMediaQuery('(max-width: 900px)');
 
   const theme = useTheme();
 
@@ -66,49 +67,52 @@ const NavBar = () => {
   };
 
   return (
-    <>
-      <AppBar position="fixed">
-        <Toolbar className={classes.toolbar}>
-          {isMobile && (
-            <IconButton
-              color="inherit"
-              edge="start"
-              style={{ outline: 'none' }}
-              onClick={() => handleDrawer(!isMobileOpen)}
-              className={classes.menuButton}
-            >
-              <Menu />
-            </IconButton>
-          )}
-          <IconButton color="inherit" sx={{ ml: 1 }} onClick={toggleColorMode}>
-            {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
-          </IconButton>
-          {!isMobile && <Search />}
-          <div>
-            {!isAuthenticated ? (
-              <Button color="inherit" onClick={fetchToken}>
-                Login &nbsp; <AccountCircle />
-              </Button>
-            ) : (
-              <Button
+    
+    <div>
+      <HideOnScroll>
+        <AppBar position="fixed" className="">
+          <Toolbar className={classes.toolbar}>
+            {isMobile && (
+              <IconButton
                 color="inherit"
-                component={Link}
-                to={`/profile/${user?.id}`}
-                className={classes.linkButton}
-                onClick={() => {}}
+                edge="start"
+                style={{ outline: 'none' }}
+                onClick={() => handleDrawer(!isMobileOpen)}
+                className={classes.menuButton}
               >
-                {!isMobile && <>My Movies &nbsp;</>}
-                <Avatar
-                  style={classes.avatar}
-                  alt="Profile"
-                  src={`https://www.themoviedb.org/t/p/w64_and_h64_face${user?.avatar?.tmdb?.avatar_path}`}
-                />
-              </Button>
+                <Menu />
+              </IconButton>
             )}
-          </div>
-          {isMobile && <Search />}
-        </Toolbar>
-      </AppBar>
+            <IconButton color="inherit" sx={{ ml: 1 }} onClick={toggleColorMode}>
+              {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
+            </IconButton>
+            {!isMobile && <Search />}
+            <div>
+              {!isAuthenticated ? (
+                <Button color="inherit" onClick={fetchToken}>
+                  Login &nbsp; <AccountCircle />
+                </Button>
+              ) : (
+                <Button
+                  color="inherit"
+                  component={Link}
+                  to={`/profile/${user?.id}`}
+                  className={classes.linkButton}
+                  onClick={() => {}}
+                >
+                  {!isMobile && <>My Movies &nbsp;</>}
+                  <Avatar
+                    style={classes.avatar}
+                    alt="Profile"
+                    src={`https://www.themoviedb.org/t/p/w64_and_h64_face${user?.avatar?.tmdb?.avatar_path}`}
+                  />
+                </Button>
+              )}
+            </div>
+            {isMobile && <Search />}
+          </Toolbar>
+        </AppBar>
+      </HideOnScroll>
       <div>
         <nav className={classes.drawer}>
           {isMobile ? (
@@ -132,7 +136,8 @@ const NavBar = () => {
           )}
         </nav>
       </div>
-    </>
+    </div>
+    
   );
 };
 
