@@ -9,5 +9,8 @@ https://developer.themoviedb.org/docs
 tek : Redux toolkit, react, react-router
 
 
+live application
+https://filmnerd.netlify.app/
+
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/0c0f60c3-4a12-4305-a494-1ec45cce7aa4/deploy-status)](https://app.netlify.com/sites/film-nerd/deploys)
