@@ -1,48 +1,27 @@
-import React, { useEffect } from 'react';
+import React, { } from 'react';
 import { useMediaQuery } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { useDispatch, useSelector } from 'react-redux';
 import Movie from '../Movie/index.js';
-import { fetchMovieDetails, selectMovieDetails } from '../../../../Redux/Features/movieDetails.js';
+import { selectMovieDetails } from '../../../../Redux/Features/movieDetails.js';
 import useStyles from './styles.js';
-import { randomSingleFromArr } from '../../../../helpers/randomSingleFromArr.js';
 
-const MovieList = ({ movies, pageViewOverride, shouldFetchMovieDetails }) => {
+const MovieList = ({ movies, shouldFetchMovieDetails }) => {
   const lg = useMediaQuery((theme) => theme.breakpoints.only('lg'));
   const classes = useStyles();
   const numberOfMovies = lg ? 12 : 10;
-  const dispatch = useDispatch();
 
   const activeMovie = useSelector(selectMovieDetails);
-
-  // useEffect(() => {
-  //   if (!movies[0].id) return;
-
-  //   // console.log(movies);
-  //   const randomFirstMovieForHeroComp = randomSingleFromArr(movies);
- 
-  // useEffect(() => {
-  //   if (!movies?.[0].id) return;
-  //   const randomFirstMovieForHeroComp = randomSingleFromArr(movies);
-  //   dispatch(fetchMovieDetails(randomFirstMovieForHeroComp?.id));
-  // }, [movies?.[0].id]);
-
-  // TODO:
-  // 1. On hover, set state to redux in MovieDetails slice.
-  // To show info in MovieHero component.
-  // Should also add this feature from the Movie component. (first load)
-
-  // console.log('movies', movies);
 
   return (
     <Grid
       container
       spacing={1}
       columns={{
-        xs: 2,
-        sm: 3,
-        md: 4,
-        lg: 5,
+        xs: 1,
+        sm: 2,
+        md: 3,
+        lg: 3,
       }}
       disableEqualOverflow
       sx={{

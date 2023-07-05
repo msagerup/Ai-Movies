@@ -6,12 +6,14 @@ export default makeStyles((theme) => ({
     marginBottom: '20px',
     display: 'flex',
     justifyContent: 'center',
-    
+    userSelect: 'none',
     aspectRatio: '16 / 9 !important',
     textDecoration: 'none',
     boxShadow: theme.palette.mode === 'dark' ? '0px 17px 16px 0px rgba(0,0,0,1)' : ' 0px 17px 16px 0px rgba(140,140,140,1)',
-    [theme.breakpoints.up('xl')]: {
-      aspectRatio: '16 / 9 !important',
+    [theme.breakpoints.down('md')]: {
+     
+      height: '400px',
+      width: '100%',
     },
   },
   
@@ -33,6 +35,7 @@ export default makeStyles((theme) => ({
     width: '100%',
     backgroundColor: 'rgba(0,0,0,0.575)',
     backgroundBlendMode: theme.palette.mode === 'dark' ? 'luminosity' : 'luminosity',
+    
   },
   cardContent: {
     color: theme.palette.mode === 'dark' ? 'white' : '#121212',
@@ -60,6 +63,10 @@ export default makeStyles((theme) => ({
     paddingTop: '100px',
     top: '-40px',
     paddingBottom: '60px',  
+  },
+
+  genreImage: {
+    filter: theme.palette.mode === 'dark' && 'invert(1)',
   },
   
 }));

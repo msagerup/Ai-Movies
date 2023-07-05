@@ -70,8 +70,14 @@ const NavBar = () => {
     
     <div>
       <HideOnScroll>
-        <AppBar position="fixed" className="">
-          <Toolbar className={classes.toolbar}>
+        <AppBar
+          position="fixed"
+          color="transparent"
+          sx={{ boxShadow: 'none' }}
+        >
+          <Toolbar 
+            className={classes.toolbar}
+          >
             {isMobile && (
               <IconButton
                 color="inherit"

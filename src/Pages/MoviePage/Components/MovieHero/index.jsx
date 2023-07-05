@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, Typography, Card, CardContent, CardMedia } from '@mui/material';
+import { Box, Typography, Card, CardContent, CardMedia, Chip, Tooltip } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { Link } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
@@ -9,6 +10,7 @@ import { randomSingleFromArr } from '../../../../helpers/randomSingleFromArr';
 import UseElmDimentions from '../../../../hooks/UseElmDimentions';
 import useProgressiveImage from '../../../../hooks/UseProgressiveImage';
 import YouTubeContainer from '../../../../Components/YouTubeContainer';
+import genreIcons from '../../../../assets/genres';
 
 // TODO:
  
@@ -23,7 +25,8 @@ import YouTubeContainer from '../../../../Components/YouTubeContainer';
 const FeaturedMovie = () => {
   const classes = useStyles();
   const movieDetails = useSelector(selectMovieDetails);
-  const { key: movieTrailerIdFromRedux } = useSelector(selectMovieTrailer);
+  const movieTrailerFromRedux = useSelector(selectMovieTrailer);
+  const movieTrailerIdFromRedux = movieTrailerFromRedux?.key;
   const featuredCardContainer = useRef(null);
   const { width, height } = UseElmDimentions(featuredCardContainer);  
   const [backdropImage, setBackdropImage] = useState(`${randomSingleFromArr(movieDetails?.images?.backdrops)?.file_path}`);
@@ -32,12 +35,6 @@ const FeaturedMovie = () => {
   const youTubeContainerRef = useRef(null);
   const timeOutRef = useRef(null);
   const [isMouseHover, setIsMouseHover] = useState(false);
-
-  console.log(trailer, 'trailer');
-
-  // console.log('movieTrailer', movieTrailerIdFromRedux);
-
-  // If no youtube script load it
 
   useEffect(
     () => 
@@ -62,19 +59,7 @@ const FeaturedMovie = () => {
   });
   if (!movieDetails) return null;
 
-  // const handleButtonClick = () => {
-  //   playerRef.current.play(); // Or playerRef.current.pause() to pause
-  // };
-
-  const handleOnMouseEnter = () => {
-    // If timeout is already set, clear it
-    clearTimeout(timeOutRef.current);
-    
-    // If the user hovers for more than 1 second, then show the trailer
-    timeOutRef.current = setTimeout(() => {
-      setIsMouseHover(true);
-    }, 1000);
-  };
+  console.log(movieDetails, 'movieDetails');
 
   const handleOnMouseLeave = () => {
     // If timeout is already set, clear it
@@ -88,8 +73,8 @@ const FeaturedMovie = () => {
       to={`/movie/${movieDetails.id}`} 
       style={{ position: 'sticky !important', top: '30px' }}
       className={classes.featuredCardContainer}
-      onMouseEnter={handleOnMouseEnter} 
-      onMouseLeave={handleOnMouseLeave}
+      onClick={() => setIsMouseHover(true)}
+ 
     >
       
       <Card className={classes.card} classes={{ root: classes.cardRoot }}>
@@ -105,7 +90,7 @@ const FeaturedMovie = () => {
                 playVideo={isMouseHover}
                 width={width}
                 height={height}
-                trailer={trailer || movieTrailerIdFromRedux}
+                trailer={isMouseHover ? trailer : movieTrailerIdFromRedux}
               />
             </div>
           )
@@ -128,6 +113,31 @@ const FeaturedMovie = () => {
               <CardContent className={classes.cardContent} classes={{ root: classes.cardContentRoot }}>
                 <Typography variant="h5" gutterBottom>{movieDetails.title}</Typography>
                 <Typography variant="body2">{movieDetails.overview}</Typography>
+                <Box marginTop={2}>
+                  <Grid
+                    container
+                    direction="row"
+                  >
+                    {movieDetails?.genres?.map((genre) => (
+                      <Grid>
+                        <Tooltip title={genre.name} placement="bottom">
+                          <Box
+                            sx={{
+                              backgroundColor: '#2d2d2d',
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              padding: '5px 15px',
+                              margin: '0 1px',
+                            }}
+                          >
+                            <img src={genreIcons[genre.name.toLowerCase()]} className={classes.genreImage} style={{ height: '20px', width: '100%' }} />
+                          </Box>
+                        </Tooltip>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Box>
               </CardContent>
             </>
           ) }
