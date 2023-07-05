@@ -12,7 +12,7 @@ export default makeStyles((theme) => ({
     boxShadow: theme.palette.mode === 'dark' ? '0px 17px 16px 0px rgba(0,0,0,1)' : ' 0px 17px 16px 0px rgba(140,140,140,1)',
     [theme.breakpoints.down('md')]: {
      
-      height: '400px',
+      height: '600px',
       width: '100%',
     },
   },
@@ -38,6 +38,7 @@ export default makeStyles((theme) => ({
     
   },
   cardContent: {
+    position: 'relative',
     color: theme.palette.mode === 'dark' ? 'white' : '#121212',
     width: '40%',
     [theme.breakpoints.down('md')]: {
@@ -46,7 +47,9 @@ export default makeStyles((theme) => ({
     },
   },
   cardContentRoot: {
-    position: 'relative',
+    position: 'absolute',
+    bottom: '0',
+    left: '0',
     backgroundColor: theme.palette.mode === 'dark' ? 'black' : 'white',
     [theme.breakpoints.down('md')]: {
       backgroundColor: 'rgba(0,0,0,0.575)',
@@ -66,7 +69,7 @@ export default makeStyles((theme) => ({
   },
 
   genreImage: {
-    filter: theme.palette.mode === 'dark' && 'invert(1)',
+    filter: 'invert(1)',
   },
   
 }));

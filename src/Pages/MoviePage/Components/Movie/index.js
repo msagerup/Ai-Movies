@@ -59,23 +59,21 @@ const Movie = ({ movie, index, shouldFetchMovieDetails, activeMovieId }) => {
   };
 
   const handleOnClick = () => {
+    window.scrollTo(0, 0, 'smooth');
     dispatch(setPlayMovieTrailer(randomSingleFromArr(movieDetails?.videos?.results)));
   };
 
   return (
+  
     <Card
       onMouseEnter={handleOnMouseEnter}
       onMouseLeave={handleOnMouseLeave}
       onClick={handleOnClick}
       sx={{
         borderRadius: '0px',
+        cursor: 'pointer',
       }}
     >
-      
-      {/* <Link 
-        to={`/movie/${movie.id}`}
-      >  */}
-          
       <div
         style={{
           position: 'relative',           
@@ -102,9 +100,9 @@ const Movie = ({ movie, index, shouldFetchMovieDetails, activeMovieId }) => {
             // zIndex: 100,
             width: '100%',
             height: '100%',
-            // opacity: isHovering ? 0.5 : 1,
-            // transition: 'opacity .15s linear, filter .3s linear',
-            transition: `opacity ${animationTimeDelay} linear, filter ${animationTimeDelay} linear`,
+            opacity: isHovering ? 0.5 : 1,
+            transition: 'opacity .3s linear, filter .3s linear',
+            // transition: `opacity ${animationTimeDelay} linear, filter ${animationTimeDelay} linear`,
 
             backgroundImage: `url(${currentSrc})`,
             backgroundSize: 'cover',
@@ -118,27 +116,26 @@ const Movie = ({ movie, index, shouldFetchMovieDetails, activeMovieId }) => {
             
         </div>
         {movieDetails?.images?.logos[0]?.file_path && (
-        <img
-          style={{
-            opacity: isHovering ? 1 : 0,
-            transition: 'opacity .15s linear',
-            maxWidth: '95%',
-            maxHeight: '95%',
-            objectFit: 'contain',
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-          }}
-          alt={movie.title}
-          src={movieDetails?.images?.logos[0]?.file_path && `https://image.tmdb.org/t/p/w300${movieDetails?.images?.logos[0]?.file_path}`}
-        />
-    
+          <img
+            style={{
+              opacity: isHovering ? 1 : 0,
+              transition: 'opacity .15s linear',
+              maxWidth: '95%',
+              maxHeight: '95%',
+              objectFit: 'contain',
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+            }}
+            alt={movie.title}
+            src={movieDetails?.images?.logos[0]?.file_path && `https://image.tmdb.org/t/p/w300${movieDetails?.images?.logos[0]?.file_path}`}
+          />
+
         )}
       </div>
-      
-      {/* </Link> */}
     </Card>
+   
   );
 };
 

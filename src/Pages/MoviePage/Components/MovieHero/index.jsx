@@ -1,9 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, Typography, Card, CardContent, CardMedia, Chip, Tooltip } from '@mui/material';
+import { Box, Button, Typography, Card, CardContent, CardMedia, Chip, Tooltip } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { Link } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
+
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Theaters } from '@mui/icons-material';
 import useStyles from './styles';
 import { selectMovieDetails, selectMovieTrailer } from '../../../../Redux/Features/movieDetails';
 import { randomSingleFromArr } from '../../../../helpers/randomSingleFromArr';
@@ -11,6 +15,7 @@ import UseElmDimentions from '../../../../hooks/UseElmDimentions';
 import useProgressiveImage from '../../../../hooks/UseProgressiveImage';
 import YouTubeContainer from '../../../../Components/YouTubeContainer';
 import genreIcons from '../../../../assets/genres';
+import { minToHoursAndMin } from '../../../../helpers/convert';
 
 // TODO:
  
@@ -34,7 +39,7 @@ const FeaturedMovie = () => {
   const playerRef = useRef(null);
   const youTubeContainerRef = useRef(null);
   const timeOutRef = useRef(null);
-  const [isMouseHover, setIsMouseHover] = useState(false);
+  const [triggerPlayTrailer, setTriggerPlayTrailer] = useState(false);
 
   useEffect(
     () => 
@@ -51,6 +56,15 @@ const FeaturedMovie = () => {
     setTrailer(`${randomSingleFromArr(movieDetails?.videos?.results)?.key}`);
   }, [movieDetails]);
   
+  const { currentSrc: logoImage } = useProgressiveImage({
+    filePath: movieDetails?.images?.logos[0]?.file_path,
+    type: 'logo',
+    highRes: 'original',
+    lowRes: 'w300',
+  });
+
+  console.log(logoImage, 'logoImage');
+
   const { currentSrc, loading } = useProgressiveImage({
     filePath: backdropImage,
     type: 'backdrop',
@@ -64,7 +78,11 @@ const FeaturedMovie = () => {
   const handleOnMouseLeave = () => {
     // If timeout is already set, clear it
     clearTimeout(timeOutRef.current);
-    setIsMouseHover(false);
+    setTriggerPlayTrailer(false);
+  };
+
+  const handlePlayTrailerButton = () => {
+    setTriggerPlayTrailer(true);
   };
 
   return (
@@ -73,12 +91,11 @@ const FeaturedMovie = () => {
       to={`/movie/${movieDetails.id}`} 
       style={{ position: 'sticky !important', top: '30px' }}
       className={classes.featuredCardContainer}
-      onClick={() => setIsMouseHover(true)}
- 
+      onMouseLeave={handleOnMouseLeave}
     >
       
       <Card className={classes.card} classes={{ root: classes.cardRoot }}>
-        {isMouseHover || movieTrailerIdFromRedux
+        {triggerPlayTrailer || movieTrailerIdFromRedux
           ? (
             <div 
               style={{ position: 'relative',
@@ -87,10 +104,10 @@ const FeaturedMovie = () => {
               }}
             >
               <YouTubeContainer 
-                playVideo={isMouseHover}
+                playVideo={triggerPlayTrailer}
                 width={width}
                 height={height}
-                trailer={isMouseHover ? trailer : movieTrailerIdFromRedux}
+                trailer={triggerPlayTrailer ? trailer : movieTrailerIdFromRedux}
               />
             </div>
           )
@@ -109,11 +126,77 @@ const FeaturedMovie = () => {
                   }}
                 />
               )}
-           
+            
               <CardContent className={classes.cardContent} classes={{ root: classes.cardContentRoot }}>
-                <Typography variant="h5" gutterBottom>{movieDetails.title}</Typography>
-                <Typography variant="body2">{movieDetails.overview}</Typography>
-                <Box marginTop={2}>
+                {/* DONT KNOW IF I WANT THIS, KEEP FOR NOW */}
+                {/* <Box
+                  sx={{
+                    position: 'absolute',
+                    top: '-100%',
+                    left: '0',
+                    width: '100%',
+                    height: '100%',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      width: '100%',
+                      height: '100%',
+                      alignItems: 'flex-end',
+                     
+                    }}                  
+                  >
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        padding: '10px 0',
+                        width: '100%',
+                      
+                        backgroundColor: 'rgba(0,0,0,0.5)',
+                      }}
+                    >
+                      <img src={logoImage} width="60%" /> 
+                    </Box>
+                  </Box>
+                </Box> */}
+                <Box>
+                  <Typography variant="h2" gutterBottom>{movieDetails.title}</Typography>
+                </Box>
+                <Box display="flex" marginBottom={2}>
+                  <Typography
+                    style={{ marginRight: '10px' }}
+                    variant="subtitle2"
+                    align="center"
+             
+                  >
+                    {movieDetails && minToHoursAndMin(movieDetails?.runtime)}
+                  </Typography>
+                  <Typography 
+                    variant="subtitle2"
+                    align="center"
+                    
+                  >
+                    {movieDetails.spoken_languages?.length > 0
+                      ? ` | ${movieDetails?.spoken_languages.map((lang) => lang.iso_639_1).join(', ')}` : ''} 
+                  </Typography>
+                </Box>
+             
+                <Box marginBottom={4} marginTop={4}> 
+                  <Button 
+                    variant="contained"
+                    size="large"
+                    startIcon={<PlayArrowIcon />}
+                    onClick={handlePlayTrailerButton}
+                  >
+                    Play Trailer
+                  </Button>
+                </Box>
+                <Box marginBottom={2}>
+                  <Typography>{movieDetails.overview}</Typography>
+                </Box>
+                <Box marginBottom={2}>
                   <Grid
                     container
                     direction="row"
@@ -136,6 +219,7 @@ const FeaturedMovie = () => {
                         </Tooltip>
                       </Grid>
                     ))}
+                    
                   </Grid>
                 </Box>
               </CardContent>
