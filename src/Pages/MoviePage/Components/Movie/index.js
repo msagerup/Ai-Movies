@@ -49,7 +49,7 @@ const Movie = ({ movie, index, shouldFetchMovieDetails, activeMovieId }) => {
 
   const handleOnMouseEnter = () => {
     // Sets the movie details in the store. This is the one rendered in the Hero comp.
-    dispatch(setMovieDetails(movieDetails));
+    // dispatch(setMovieDetails(movieDetails));
     // Controlls animation on card hover.
     setIsHovering(true);
   }; 
@@ -60,7 +60,8 @@ const Movie = ({ movie, index, shouldFetchMovieDetails, activeMovieId }) => {
 
   const handleOnClick = () => {
     window.scrollTo(0, 0, 'smooth');
-    dispatch(setPlayMovieTrailer(randomSingleFromArr(movieDetails?.videos?.results)));
+    dispatch(setMovieDetails(movieDetails));
+    // dispatch(setPlayMovieTrailer(randomSingleFromArr(movieDetails?.videos?.results)));
   };
 
   return (

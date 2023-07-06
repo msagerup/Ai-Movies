@@ -1,17 +1,62 @@
 import React from 'react';
-import { Typography, Box, Grid } from '@mui/material';
+import { Typography, Box, Grid, Card, CardMedia, CardContent } from '@mui/material';
 
-import Movie from '../../Pages/MoviePage/Components/Movie';
+import useProgressiveImage from '../../hooks/UseProgressiveImage.jsx';
+import useStyles from './styles.js';
 
-const RatedCards = ({ title, data }) => (
-  <Box marginTop={2}>
-    <Typography variant="h5" gutterBottom>{title}</Typography>
-    <Grid container direction="row" spacing={1} justifyContent={{ sm: 'flex-start' }}>
-      {data?.results.map((movie, i) => (
-        <Movie key={movie.id} movie={movie} i={i} />
-      ))}
-    </Grid>
-  </Box>
-);
+const RatedCards = ({ title, data }) => {
+  const classes = useStyles();
+  // TODO: use Find to find the correct value for the image
+  // Also this card component is fucked, make own.
+
+  //   const { currentSrc, loading } = useProgressiveImage({
+  //     filePath: data?.results?.poster_path,
+  //     type: 'poster',
+  //     highRes: 'original',
+  //     lowRes: 'w500',
+  //   });
+
+  console.log('s');
+  return (
+    <Box marginTop={2}>
+      <Typography variant="h5" gutterBottom>{title}</Typography>
+      <Grid 
+        container
+        rowGap={2}
+        columns={{
+          xs: 1,
+          sm: 2,
+          md: 3,
+          lg: 3,
+        }}
+        disableEqualOverflow
+      >
+        {data?.results.map((movie) => (
+          <Grid
+            key={movie.id}
+            xs={1}
+            className={classes.cardItem}
+          >
+            <Card
+              sx={{ maxWidth: 345 }}
+            >
+              <CardMedia
+                sx={{ height: 500, width: 345 }}
+                image={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {movie.title}
+                </Typography>
+              
+              </CardContent>
+              
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
+  );
+};
 
 export default RatedCards;

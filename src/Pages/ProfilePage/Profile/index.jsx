@@ -15,7 +15,7 @@ const Profile = () => {
   useEffect(() => {
     refetchFavorites();
     refetchWatchlisted();
-  }, []);
+  }, []); 
 
   const logout = () => {
     localStorage.clear();
@@ -24,7 +24,7 @@ const Profile = () => {
 
   return (
     <Container>
-      <Box marginTop={2} display="flex" justifyContent="space-between">
+      <Box marginTop={12} display="flex" justifyContent="space-between">
         <Typography variant="h4" gutterBottom>My Profile</Typography>
         <Button color="inherit" onClick={logout}>
           Logout &nbsp; <ExitToApp />
@@ -35,7 +35,7 @@ const Profile = () => {
         : (
           <Box display="flex" flexDirection="column">
             <RatedCards title="Favorite Movies" data={favoriteMovies} />
-            <RatedCards title="Watchlist" data={watchlistMovies} />
+            {/* <RatedCards title="Watchlist" data={watchlistMovies} /> */}
           </Box>
         )}
     </Container>

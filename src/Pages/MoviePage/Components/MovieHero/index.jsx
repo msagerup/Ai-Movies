@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, Button, Typography, Card, CardContent, CardMedia, Chip, Tooltip } from '@mui/material';
+import { Box, Button, Typography, Card, CardContent, CardMedia, Chip, Tooltip, IconButton } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { Link } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
-
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Theaters } from '@mui/icons-material';
+import { AddOutlined, Favorite, PlusOne, PlusOneOutlined, PublishRounded, Theaters } from '@mui/icons-material';
 import useStyles from './styles';
 import { selectMovieDetails, selectMovieTrailer } from '../../../../Redux/Features/movieDetails';
 import { randomSingleFromArr } from '../../../../helpers/randomSingleFromArr';
@@ -16,6 +16,7 @@ import useProgressiveImage from '../../../../hooks/UseProgressiveImage';
 import YouTubeContainer from '../../../../Components/YouTubeContainer';
 import genreIcons from '../../../../assets/genres';
 import { minToHoursAndMin } from '../../../../helpers/convert';
+import UseAddToFavorite from '../../../../hooks/UseAddToFavorite';
 
 // TODO:
  
@@ -41,6 +42,10 @@ const FeaturedMovie = () => {
   const timeOutRef = useRef(null);
   const [triggerPlayTrailer, setTriggerPlayTrailer] = useState(false);
 
+  // Not working correctly
+  // TODO: Fix this
+  const { addToFavorites, isMovieFavorited } = UseAddToFavorite({ id: movieDetails?.id });
+
   useEffect(
     () => 
     // Clenup timout of when components demounts, if it's running
@@ -56,14 +61,12 @@ const FeaturedMovie = () => {
     setTrailer(`${randomSingleFromArr(movieDetails?.videos?.results)?.key}`);
   }, [movieDetails]);
   
-  const { currentSrc: logoImage } = useProgressiveImage({
-    filePath: movieDetails?.images?.logos[0]?.file_path,
-    type: 'logo',
-    highRes: 'original',
-    lowRes: 'w300',
-  });
-
-  console.log(logoImage, 'logoImage');
+  // const { currentSrc: logoImage } = useProgressiveImage({
+  //   filePath: movieDetails?.images?.logos[0]?.file_path,
+  //   type: 'logo',
+  //   highRes: 'original',
+  //   lowRes: 'w300',
+  // });
 
   const { currentSrc, loading } = useProgressiveImage({
     filePath: backdropImage,
@@ -72,8 +75,6 @@ const FeaturedMovie = () => {
     lowRes: 'w300',
   });
   if (!movieDetails) return null;
-
-  console.log(movieDetails, 'movieDetails');
 
   const handleOnMouseLeave = () => {
     // If timeout is already set, clear it
@@ -183,16 +184,37 @@ const FeaturedMovie = () => {
                   </Typography>
                 </Box>
              
-                <Box marginBottom={4} marginTop={4}> 
-                  <Button 
-                    variant="contained"
-                    size="large"
-                    startIcon={<PlayArrowIcon />}
-                    onClick={handlePlayTrailerButton}
-                  >
-                    Play Trailer
-                  </Button>
-                </Box>
+                <Grid
+                  container
+                  direction="row"
+                  alignItems="center"
+                  marginBottom={4} 
+                  marginTop={4}
+                  gap={2}
+                
+                > 
+                  <Grid>
+                    <Button 
+                      variant="contained"
+                      size="large"
+                      startIcon={<PlayArrowIcon />}
+                      onClick={handlePlayTrailerButton}
+                    >
+                      Play Trailer
+                    </Button>
+                  </Grid>
+
+                  <Grid>
+                    <Tooltip title="Add to favorites" placement="bottom">
+                      <IconButton
+                        onClick={() => addToFavorites(movieDetails.id)}
+                        size="large"
+                      >
+                        <ControlPointIcon fontSize="large" />
+                      </IconButton>
+                    </Tooltip>
+                  </Grid>
+                </Grid>
                 <Box marginBottom={2}>
                   <Typography>{movieDetails.overview}</Typography>
                 </Box>

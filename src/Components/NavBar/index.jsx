@@ -35,7 +35,7 @@ const NavBar = () => {
   const { user, isAuthenticated } = useSelector(userSelector);
   const classes = useStyles();
   const isMobile = useMediaQuery('(max-width: 900px)');
-  const [isUnderDev, setIsUnderDev] = useState(true);
+  const [isUnderDev, setIsUnderDev] = useState(false);
   const theme = useTheme();
 
   const { toggleColorMode } = useContext(ColorModeContext);
