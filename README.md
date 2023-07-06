@@ -1,4 +1,4 @@
-# Filmpire app - Ai Film registry application
+# FilmNerd app - Ai Film registry application
 
 If you want to use this application, there's a few steps you need to do. 
 
