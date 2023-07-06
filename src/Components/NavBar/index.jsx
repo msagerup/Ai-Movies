@@ -7,6 +7,7 @@ import {
   Button,
   Avatar,
   useMediaQuery,
+  Typography,
 } from '@mui/material';
 import {
   Menu,
@@ -34,7 +35,7 @@ const NavBar = () => {
   const { user, isAuthenticated } = useSelector(userSelector);
   const classes = useStyles();
   const isMobile = useMediaQuery('(max-width: 900px)');
-
+  const [isUnderDev, setIsUnderDev] = useState(true);
   const theme = useTheme();
 
   const { toggleColorMode } = useContext(ColorModeContext);
@@ -70,6 +71,7 @@ const NavBar = () => {
     
     <div>
       <HideOnScroll>
+       
         <AppBar
           position="fixed"
           color="transparent"
@@ -78,6 +80,16 @@ const NavBar = () => {
           <Toolbar 
             className={classes.toolbar}
           >
+            {isUnderDev && (
+            <Typography 
+              variant="body2" 
+              color="red"
+              sx={{ cursor: 'pointer' }}
+              onClick={() => setIsUnderDev(false)}
+            >
+              *** NB! : Working on mobile rendering. Last updated, 6th July 2023. (Click to hide).  NB! Project is under development.*** Click to hide
+            </Typography>
+            )}
             {isMobile && (
               <IconButton
                 color="inherit"
