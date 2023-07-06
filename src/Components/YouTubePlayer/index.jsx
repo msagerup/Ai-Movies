@@ -60,7 +60,7 @@ const YouTubePlayer = ({ videoId, playerHeight, playerWidth }) => {
             controls: 0,
             modestbranding: 1,
             autoplay: 1,
-            mute: 1, // This will mute the video
+        
           },
           events: {
             onReady: (event) => {

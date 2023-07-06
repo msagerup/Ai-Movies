@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, Button, Typography, Card, CardContent, CardMedia, Chip, Tooltip, IconButton } from '@mui/material';
+import { Box, Button, Typography, Card, CardContent, CardMedia, Tooltip, IconButton, useMediaQuery } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { Link } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { AddOutlined, Favorite, PlusOne, PlusOneOutlined, PublishRounded, Theaters } from '@mui/icons-material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import useStyles from './styles';
 import { selectMovieDetails, selectMovieTrailer } from '../../../../Redux/Features/movieDetails';
 import { randomSingleFromArr } from '../../../../helpers/randomSingleFromArr';
@@ -22,7 +21,7 @@ import UseAddToFavorite from '../../../../hooks/UseAddToFavorite';
  
 // 1. Add volume controll and mute button to youtube player.
 // 2. Fix isses where large image continues to load even if the mouse enters a new card
-
+// 3. Move css rules in styles.js 
 // 6. Add a button to play trailer. for mobile.
 // 7. ON scroll, container should follow scroll. 
 // 8. navbar should temporary disaper when scrolling down.
@@ -42,8 +41,8 @@ const FeaturedMovie = () => {
   const timeOutRef = useRef(null);
   const [triggerPlayTrailer, setTriggerPlayTrailer] = useState(false);
 
-  // Not working correctly
-  // TODO: Fix this
+  const isMobile = useMediaQuery('(max-width: 900px)');
+
   const { addToFavorites, isMovieFavorited } = UseAddToFavorite({ id: movieDetails?.id });
 
   useEffect(
@@ -54,19 +53,11 @@ const FeaturedMovie = () => {
       },
     [],
   );
-  
-  // Use Memo here? 
+
   useEffect(() => {
     setBackdropImage(`${randomSingleFromArr(movieDetails?.images?.backdrops)?.file_path}`);
     setTrailer(`${randomSingleFromArr(movieDetails?.videos?.results)?.key}`);
   }, [movieDetails]);
-  
-  // const { currentSrc: logoImage } = useProgressiveImage({
-  //   filePath: movieDetails?.images?.logos[0]?.file_path,
-  //   type: 'logo',
-  //   highRes: 'original',
-  //   lowRes: 'w300',
-  // });
 
   const { currentSrc, loading } = useProgressiveImage({
     filePath: backdropImage,
@@ -118,7 +109,6 @@ const FeaturedMovie = () => {
                 <CardMedia
                   alt={movieDetails?.title}
                   image={currentSrc}
-                  // component="img"
                   title={movieDetails.title}
                   className={classes.cardMedia}
                   style={{
@@ -128,121 +118,120 @@ const FeaturedMovie = () => {
                 />
               )}
             
-              <CardContent className={classes.cardContent} classes={{ root: classes.cardContentRoot }}>
-                {/* DONT KNOW IF I WANT THIS, KEEP FOR NOW */}
-                {/* <Box
+              <CardContent className={classes.cardContent} classes={{ root: classes.cardContentRoot }}> 
+                <Box 
                   sx={{
-                    position: 'absolute',
-                    top: '-100%',
-                    left: '0',
                     width: '100%',
                     height: '100%',
+                    display: 'flex',
+                    alignItems: 'flex-end',
                   }}
                 >
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      width: '100%',
-                      height: '100%',
-                      alignItems: 'flex-end',
-                     
-                    }}                  
-                  >
+                  <Box>
+                    <Box>
+                      <Typography variant={isMobile ? 'h3' : 'h2'} gutterBottom>{movieDetails.title}</Typography>
+                    </Box>
+                    <Box display="flex" marginBottom={2}>
+                      <Typography
+                        style={{ marginRight: '10px' }}
+                        variant="subtitle2"
+                        align="center"
+                      >
+                        {movieDetails && minToHoursAndMin(movieDetails?.runtime)}
+                      </Typography>
+                      <Typography 
+                        variant="subtitle2"
+                        align="center"
+                      >
+                        {movieDetails.spoken_languages?.length > 0
+                          ? ` | ${movieDetails?.spoken_languages.map((lang) => lang.iso_639_1).join(', ')}` : ''} 
+                      </Typography>
+                    </Box>
+             
+                    <Grid
+                      container
+                      direction="row"
+                      alignItems="center"
+                      marginBottom={4} 
+                      marginTop={4}
+                      gap={2}
+                    > 
+                      <Grid>
+                        <Button 
+                          variant="contained"
+                          size="large"
+                          startIcon={<PlayArrowIcon />}
+                          onClick={handlePlayTrailerButton}
+                        >
+                          Play Trailer
+                        </Button>
+                      </Grid>
+
+                      <Grid>
+
+                        {isMovieFavorited ? (
+                          <Tooltip title="Remove from favorites" placement="bottom">
+                            <IconButton
+                              onClick={() => addToFavorites(movieDetails.id)}
+                              size="large"
+                            >
+                              <FavoriteIcon fontSize="large" />
+                            </IconButton>
+                          </Tooltip>
+                        ) : (
+                          <Tooltip title="Add to favorites" placement="bottom">
+                            <IconButton
+                              onClick={() => addToFavorites(movieDetails.id)}
+                              size="large"
+                            >
+                              <ControlPointIcon fontSize="large" />
+                            </IconButton>
+                          </Tooltip>
+                        ) }
+                  
+                      </Grid>
+                    </Grid>
                     <Box
+                      marginBottom={2}
+                  // TODO:  Make this work
+                  // https://css-tricks.com/line-clampin/
                       sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        padding: '10px 0',
-                        width: '100%',
-                      
-                        backgroundColor: 'rgba(0,0,0,0.5)',
+                        width: '300px',
+                        display: '-webkit-box',
+                        WebkitBoxOrient: 'vertical',
+                        WebkitLineClamp: 5,
+                        overflow: 'hidden',
                       }}
                     >
-                      <img src={logoImage} width="60%" /> 
+                      <Typography>{movieDetails.overview}</Typography>
+                    </Box>
+                    <Box marginBottom={2}>
+                      <Grid
+                        container
+                        direction="row"
+                      >
+                        {movieDetails?.genres?.map((genre) => (
+                          <Grid>
+                            <Tooltip title={genre.name} placement="bottom">
+                              <Box
+                                sx={{
+                                  backgroundColor: '#2d2d2d',
+                                  display: 'flex',
+                                  justifyContent: 'center',
+                                  alignItems: 'center',
+                                  padding: '5px 15px',
+                                  margin: '0 1px',
+                                }}
+                              >
+                                <img src={genreIcons[genre.name.toLowerCase()]} className={classes.genreImage} style={{ height: '20px', width: '100%' }} />
+                              </Box>
+                            </Tooltip>
+                          </Grid>
+                        ))}
+                    
+                      </Grid>
                     </Box>
                   </Box>
-                </Box> */}
-                <Box>
-                  <Typography variant="h2" gutterBottom>{movieDetails.title}</Typography>
-                </Box>
-                <Box display="flex" marginBottom={2}>
-                  <Typography
-                    style={{ marginRight: '10px' }}
-                    variant="subtitle2"
-                    align="center"
-             
-                  >
-                    {movieDetails && minToHoursAndMin(movieDetails?.runtime)}
-                  </Typography>
-                  <Typography 
-                    variant="subtitle2"
-                    align="center"
-                    
-                  >
-                    {movieDetails.spoken_languages?.length > 0
-                      ? ` | ${movieDetails?.spoken_languages.map((lang) => lang.iso_639_1).join(', ')}` : ''} 
-                  </Typography>
-                </Box>
-             
-                <Grid
-                  container
-                  direction="row"
-                  alignItems="center"
-                  marginBottom={4} 
-                  marginTop={4}
-                  gap={2}
-                
-                > 
-                  <Grid>
-                    <Button 
-                      variant="contained"
-                      size="large"
-                      startIcon={<PlayArrowIcon />}
-                      onClick={handlePlayTrailerButton}
-                    >
-                      Play Trailer
-                    </Button>
-                  </Grid>
-
-                  <Grid>
-                    <Tooltip title="Add to favorites" placement="bottom">
-                      <IconButton
-                        onClick={() => addToFavorites(movieDetails.id)}
-                        size="large"
-                      >
-                        <ControlPointIcon fontSize="large" />
-                      </IconButton>
-                    </Tooltip>
-                  </Grid>
-                </Grid>
-                <Box marginBottom={2}>
-                  <Typography>{movieDetails.overview}</Typography>
-                </Box>
-                <Box marginBottom={2}>
-                  <Grid
-                    container
-                    direction="row"
-                  >
-                    {movieDetails?.genres?.map((genre) => (
-                      <Grid>
-                        <Tooltip title={genre.name} placement="bottom">
-                          <Box
-                            sx={{
-                              backgroundColor: '#2d2d2d',
-                              display: 'flex',
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                              padding: '5px 15px',
-                              margin: '0 1px',
-                            }}
-                          >
-                            <img src={genreIcons[genre.name.toLowerCase()]} className={classes.genreImage} style={{ height: '20px', width: '100%' }} />
-                          </Box>
-                        </Tooltip>
-                      </Grid>
-                    ))}
-                    
-                  </Grid>
                 </Box>
               </CardContent>
             </>

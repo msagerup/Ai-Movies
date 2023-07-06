@@ -38,12 +38,14 @@ export default makeStyles((theme) => ({
     
   },
   cardContent: {
+  
     position: 'relative',
     color: theme.palette.mode === 'dark' ? 'white' : '#121212',
     width: '40%',
     [theme.breakpoints.down('md')]: {
       color: 'white',
       width: '100%',
+      
     },
   },
   cardContentRoot: {
@@ -52,20 +54,10 @@ export default makeStyles((theme) => ({
     left: '0',
     backgroundColor: theme.palette.mode === 'dark' ? 'black' : 'white',
     [theme.breakpoints.down('md')]: {
-      backgroundColor: 'rgba(0,0,0,0.575)',
-      // background-color: #00000069;
+      backgroundColor: theme.palette.mode === 'dark' ? 'rgb(0 0 0 / 39%)' : 'rgb(212 212 212 / 57%)',
+      color: theme.palette.mode === 'dark' ? 'white' : '#121212',
+      height: '100%',
     },
-  },
-
-  override: {
-    zIndex: 5,
-    backgroundColor: theme.palette.mode === 'dark' ? '#2d2d2d' : '#dcdcdc',
-    position: 'relative',
-    width: '95% !important',  
-    boxShadow: theme.palette.mode === 'dark' ? '0px 17px 16px 0px rgba(0,0,0,1)' : ' 0px 17px 16px 0px rgba(140,140,140,1)',
-    paddingTop: '100px',
-    top: '-40px',
-    paddingBottom: '60px',  
   },
 
   genreImage: {

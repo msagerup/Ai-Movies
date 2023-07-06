@@ -35,6 +35,8 @@ const NavBar = () => {
   const { user, isAuthenticated } = useSelector(userSelector);
   const classes = useStyles();
   const isMobile = useMediaQuery('(max-width: 900px)');
+
+  const mobileNavBar = useMediaQuery((theme) => theme.breakpoints.down('md'));
   const [isUnderDev, setIsUnderDev] = useState(true);
   const theme = useTheme();
 
