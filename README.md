@@ -10,6 +10,11 @@ tek : Redux toolkit, react, react-router
 
 (WIP)
 
+screens: 
+
+![image](https://github.com/msagerup/Ai-Movies/assets/23620566/0806611b-7494-4622-aeb1-59eda0269842)
+
+
 
 live application
 https://filmnerd.netlify.app/
