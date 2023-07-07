@@ -53,14 +53,14 @@ const MainLayout = () => {
   return (
     <>
       <NavBar />
-      <Box
+      {/* <Box
         sx={{
           position: 'relative',
           width: '100%',
           height: '100vh',
         }}
-      >
-        {/* <Box 
+      > */}
+      {/* <Box 
           sx={{
             position: 'absolute',
             top: 0,
@@ -73,7 +73,7 @@ const MainLayout = () => {
             opacity: fade ? 0 : 1,
           }}
         /> */}
-        <Box 
+      {/* <Box 
           sx={{
             position: 'absolute',
             top: 0,
@@ -88,15 +88,16 @@ const MainLayout = () => {
             filter: fade ? 'none' : 'contrast(80%) grayscale(10%) blur(5px)',
             transition: 'opacity 1.5s linear , filter 1.5s linear',
           }}
-        />
-        <Container
-          disableGutters
-        >
-          <main>
-            <Outlet />
-          </main>
-        </Container>
-      </Box>
+        /> */}
+      <Container
+        disableGutters={isMobile}
+        maxWidth="xl"
+      >
+        <main>
+          <Outlet />
+        </main>
+      </Container>
+      {/* </Box> */}
     </>
   );
 };

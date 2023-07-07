@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import InfoIcon from '@mui/icons-material/Info';
 import useStyles from './styles';
 import { selectMovieDetails, selectMovieTrailer } from '../../../../Redux/Features/movieDetails';
 import { randomSingleFromArr } from '../../../../helpers/randomSingleFromArr';
@@ -16,7 +17,8 @@ import YouTubeContainer from '../../../../Components/YouTubeContainer';
 import genreIcons from '../../../../assets/genres';
 import { minToHoursAndMin } from '../../../../helpers/convert';
 import UseAddToFavorite from '../../../../hooks/UseAddToFavorite';
-
+import GenreRow from '../../../../Components/GenreRow';
+import MovieLangAndRelease from '../../../../Components/MovieLangAndRelease';
 // TODO:
  
 // 1. Add volume controll and mute button to youtube player.
@@ -131,22 +133,11 @@ const FeaturedMovie = () => {
                     <Box>
                       <Typography variant={isMobile ? 'h3' : 'h2'} gutterBottom>{movieDetails.title}</Typography>
                     </Box>
-                    <Box display="flex" marginBottom={2}>
-                      <Typography
-                        style={{ marginRight: '10px' }}
-                        variant="subtitle2"
-                        align="center"
-                      >
-                        {movieDetails && minToHoursAndMin(movieDetails?.runtime)}
-                      </Typography>
-                      <Typography 
-                        variant="subtitle2"
-                        align="center"
-                      >
-                        {movieDetails.spoken_languages?.length > 0
-                          ? ` | ${movieDetails?.spoken_languages.map((lang) => lang.iso_639_1).join(', ')}` : ''} 
-                      </Typography>
-                    </Box>
+                    <MovieLangAndRelease 
+                      variant="body2"
+                      runtime={movieDetails?.runtime} 
+                      languages={movieDetails.spoken_languages} 
+                    />
              
                     <Grid
                       container
@@ -190,10 +181,20 @@ const FeaturedMovie = () => {
                         ) }
                   
                       </Grid>
+                      <Grid>
+                        <Tooltip title={`More info about ${movieDetails.title}`} placement="bottom">
+                          <IconButton
+                            component={Link}
+                            to={`/movie/${movieDetails.id}`}
+                          >
+                            <InfoIcon fontSize="large" />
+                          </IconButton>
+                        </Tooltip>
+                      </Grid>
                     </Grid>
                     <Box
                       marginBottom={2}
-                  // TODO:  Make this work
+                  // TODO:  Implement this 
                   // https://css-tricks.com/line-clampin/
                       sx={{
                         width: '300px',
@@ -206,30 +207,7 @@ const FeaturedMovie = () => {
                       <Typography>{movieDetails.overview}</Typography>
                     </Box>
                     <Box marginBottom={2}>
-                      <Grid
-                        container
-                        direction="row"
-                      >
-                        {movieDetails?.genres?.map((genre) => (
-                          <Grid>
-                            <Tooltip title={genre.name} placement="bottom">
-                              <Box
-                                sx={{
-                                  backgroundColor: '#2d2d2d',
-                                  display: 'flex',
-                                  justifyContent: 'center',
-                                  alignItems: 'center',
-                                  padding: '5px 15px',
-                                  margin: '0 1px',
-                                }}
-                              >
-                                <img src={genreIcons[genre.name.toLowerCase()]} className={classes.genreImage} style={{ height: '20px', width: '100%' }} />
-                              </Box>
-                            </Tooltip>
-                          </Grid>
-                        ))}
-                    
-                      </Grid>
+                      <GenreRow genres={movieDetails.genres} />
                     </Box>
                   </Box>
                 </Box>

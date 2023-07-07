@@ -3,11 +3,11 @@
 }
 
 ::-webkit-scrollbar-track {
-    background: #cfcfcf;
+    background: #565656;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #8b8b8b;
+    background: #2e2e2e;
 }
 
 * {
