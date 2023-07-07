@@ -89,7 +89,7 @@ const NavBar = () => {
               sx={{ cursor: 'pointer' }}
               onClick={() => setIsUnderDev(false)}
             >
-              *** NB! : Working on mobile rendering. Last updated, 6th July 2023. (Click to hide).  NB! Project is under development.*** Click to hide
+              *** NB! : Working on mobile rendering. Last updated, 7th July 2023. (Click to hide).  NB! Project is under development.*** Click to hide
             </Typography>
             )}
             {isMobile && (
