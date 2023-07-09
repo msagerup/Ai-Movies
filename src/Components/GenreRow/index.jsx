@@ -15,7 +15,7 @@ const GenreRow = ({ genres }) => {
       direction="row"
     >
       {genres.map((genre) => (
-        <Grid>
+        <Grid key={genre.id}>
           <Tooltip title={genre.name} placement="bottom">
             <Box
               sx={{

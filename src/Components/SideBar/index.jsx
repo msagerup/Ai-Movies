@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
   Divider,
   List,
@@ -6,17 +6,22 @@ import {
   ListItemText,
   ListSubheader,
   ListItemIcon,
+  IconButton,
+  Box,
 } from '@mui/material';
 
 import { useDispatch } from 'react-redux';
 
 import { Link } from 'react-router-dom';
+import { useTheme } from '@emotion/react';
+import { Brightness4, Brightness7 } from '@mui/icons-material';
 import { setgenreIdOrCategoryName } from '../../Redux/Features/currentGenreIdOrCategory';
 import useStyles from './styles.js';
 import { useGetGenresQuery } from '../../Redux/Services/TMDB.js';
 import Loader from '../Loader/Loader.jsx';
 import genreIcons from '../../assets/genres';
 import filmnerdlogo from '../../assets/images/filmnerd2.png';
+import { ColorModeContext } from '../../Context/ToggleColorMode';
 
 const logo = filmnerdlogo;
 
@@ -37,12 +42,19 @@ const categories = [
 
 const SideBar = ({ handleDrawer }) => {
   const classes = useStyles();
-  const { data, isLoading } = useGetGenresQuery();
+  const { data, isLoading, isFetching } = useGetGenresQuery();
   const dispatch = useDispatch();
+  const theme = useTheme();
+
+  const { toggleColorMode } = useContext(ColorModeContext);
 
   useEffect(() => {
     handleDrawer(false);
-  }, [isLoading]);
+  }, [isLoading, isFetching]);
+
+  const closeDrawer = () => {
+    handleDrawer(false);
+  };
 
   return (
     <>
@@ -51,15 +63,45 @@ const SideBar = ({ handleDrawer }) => {
           className={classes.image}
           src={logo}
           alt="Film Nerd Logo"
+          onClick={closeDrawer}
         />
       </Link>
       <Divider />
+      <Box
+        sx={{
+          display: 'flex',
+          width: '100%',
+          alignItems: 'center',
+          justifyContent: 'center',
+          bgcolor: 'background.default',
+          color: 'text.primary',
+          borderRadius: 1,
+          p: 1,
+        }}
+      >
+        {theme.palette.mode} mode
+        <IconButton 
+          sx={{ ml: 1 }} 
+          onClick={toggleColorMode} 
+          color="inherit"
+        >
+          {theme.palette.mode === 'dark' 
+            ? <Brightness4 /> 
+            : <Brightness7 />}
+        </IconButton>
+      </Box>
+      <Divider />
       <List>
-        <ListSubheader>Categories</ListSubheader>
+        <ListSubheader>
+          Categories
+        </ListSubheader>
         {categories.map(({ label, value }) => (
           <Link key={value} className={classes.links} to="/">
             <ListItemButton
-              onClick={() => dispatch(setgenreIdOrCategoryName(value))}
+              onClick={() => {
+                dispatch(setgenreIdOrCategoryName(value));
+                closeDrawer();
+              }}
             >
               <ListItemIcon>
                 <img
@@ -76,11 +118,15 @@ const SideBar = ({ handleDrawer }) => {
       <Divider />
       <List>
         <ListSubheader>Genres</ListSubheader>
-        {isLoading ? <Loader size="2rem" display="flex" position="center" />
+        {isLoading 
+          ? <Loader size="2rem" display="flex" position="center" />
           : data.genres.map(({ id, name }) => (
             <Link key={id} className={classes.links} to="/">
               <ListItemButton
-                onClick={() => dispatch(setgenreIdOrCategoryName(id))}
+                onClick={() => {
+                  dispatch(setgenreIdOrCategoryName(id));
+                  closeDrawer();
+                }}
               >
                 <ListItemIcon>
                   <img

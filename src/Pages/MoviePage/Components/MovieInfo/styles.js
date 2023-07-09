@@ -12,10 +12,8 @@ export default makeStyles((theme) => ({
     },
   },
  
-  backgroundImage: {
-    
+  backgroundImage: {   
     width: '100vw',
-    // maxHeight: '60vh',
   },
   backdropFilter: {
     backgroundImage: theme.palette.mode === 'dark' ? 'radial-gradient(farthest-side at 73% 21%, transparent, rgb(18 18 18))' : 'radial-gradient(farthest-side at 73% 21%, transparent, rgb(255 255 255))',    

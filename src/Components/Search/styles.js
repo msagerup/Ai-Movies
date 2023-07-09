@@ -2,18 +2,19 @@ import { makeStyles } from '@mui/styles';
 
 export default makeStyles((theme) => ({
   searchContainer: {
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       display: 'flex',
       justifyContent: 'center',
-      width: '100%',
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: '50%',
     },
   },
   input: {
     color: theme.palette.mode === 'light' && 'black',
     filter: theme.palette.mode === 'light' && 'invert(1)',
-    [theme.breakpoints.down('sm')]: {
-      marginTop: '-10px',
-      marginBottom: '10px',
+    [theme.breakpoints.down('md')]: {
+      marginTop: '-20px',
     },
   },
 }));

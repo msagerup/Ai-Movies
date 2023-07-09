@@ -38,21 +38,28 @@ export default makeStyles((theme) => ({
     
   },
   cardContent: {
-  
     position: 'relative',
     color: theme.palette.mode === 'dark' ? 'white' : '#121212',
-    width: '40%',
+    aspectRatio: '16 / 9 !important',
+    width: '60%',
     [theme.breakpoints.down('md')]: {
       color: 'white',
       width: '100%',
       
     },
   },
+
+  movieTitle: {
+    maxWidth: '70%',
+  },
+
   cardContentRoot: {
     position: 'absolute',
     bottom: '0',
     left: '0',
-    backgroundColor: theme.palette.mode === 'dark' ? 'black' : 'white',
+    width: '100%',
+    height: '100%',
+    backgroundImage: theme.palette.mode === 'dark' ? 'radial-gradient(farthest-side at 73% 21%, transparent 65%, rgb(18 18 18))' : 'radial-gradient(farthest-side at 73% 21%, transparent, rgb(255 255 255) )',    
     [theme.breakpoints.down('md')]: {
       backgroundColor: theme.palette.mode === 'dark' ? 'rgb(0 0 0 / 39%)' : 'rgb(212 212 212 / 57%)',
       color: theme.palette.mode === 'dark' ? 'white' : '#121212',

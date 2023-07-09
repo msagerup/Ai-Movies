@@ -14,8 +14,6 @@ import { randomSingleFromArr } from '../../../../helpers/randomSingleFromArr';
 import UseElmDimentions from '../../../../hooks/UseElmDimentions';
 import useProgressiveImage from '../../../../hooks/UseProgressiveImage';
 import YouTubeContainer from '../../../../Components/YouTubeContainer';
-import genreIcons from '../../../../assets/genres';
-import { minToHoursAndMin } from '../../../../helpers/convert';
 import UseAddToFavorite from '../../../../hooks/UseAddToFavorite';
 import GenreRow from '../../../../Components/GenreRow';
 import MovieLangAndRelease from '../../../../Components/MovieLangAndRelease';
@@ -83,7 +81,6 @@ const FeaturedMovie = () => {
     <Box
       ref={featuredCardContainer} 
       to={`/movie/${movieDetails.id}`} 
-      style={{ position: 'sticky !important', top: '30px' }}
       className={classes.featuredCardContainer}
       onMouseLeave={handleOnMouseLeave}
     >
@@ -120,7 +117,10 @@ const FeaturedMovie = () => {
                 />
               )}
             
-              <CardContent className={classes.cardContent} classes={{ root: classes.cardContentRoot }}> 
+              <CardContent 
+                className={classes.cardContent} 
+                classes={{ root: classes.cardContentRoot }}
+              > 
                 <Box 
                   sx={{
                     width: '100%',
@@ -131,7 +131,12 @@ const FeaturedMovie = () => {
                 >
                   <Box>
                     <Box>
-                      <Typography variant={isMobile ? 'h3' : 'h2'} gutterBottom>{movieDetails.title}</Typography>
+                      <Typography
+                        className={classes.movieTitle} 
+                        variant={isMobile ? 'h3' : 'h2'} 
+                        gutterBottom
+                      >{movieDetails.title}
+                      </Typography>
                     </Box>
                     <MovieLangAndRelease 
                       variant="body2"

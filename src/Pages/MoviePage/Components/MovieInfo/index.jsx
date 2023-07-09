@@ -4,15 +4,16 @@ import { Box, Tab, Container, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import TabContext from '@mui/lab/TabContext';
 import { TabList, TabPanel } from '@mui/lab';
+import { Reviews as ReviewsIcon } from '@mui/icons-material';
 import { useGetMovieDetailsQuery } from '../../../../Redux/Services/TMDB';
 import useStyles from './styles';
 import useProgressiveImage from '../../../../hooks/UseProgressiveImage';
 import { randomSingleFromArr } from '../../../../helpers/randomSingleFromArr';
 import GenreRow from '../../../../Components/GenreRow';
-import Movie from '../Movie';
+
 import MovieLangAndRelease from '../../../../Components/MovieLangAndRelease';
-import VoteAvarage from '../../../../Components/VoteAvarage';
-import MovieSlider from '../../../../Components/MovieSlider';
+import Details from './Components';
+import Reviews from '../../../../Components/Reviews';
 
 const MovieInfo = () => {
   const classes = useStyles();
@@ -24,7 +25,6 @@ const MovieInfo = () => {
 
   //   const logoImage = movieDetails?.images?.logos?.find((logo) => logo.iso_639_1 === 'en')?.file_path;
   const logoImage = movieDetails?.images?.logos[0]?.file_path;
-  console.log();
 
   const { currentSrc, loading } = useProgressiveImage({
     filePath: randomBackdrop,
@@ -40,7 +40,7 @@ const MovieInfo = () => {
     lowRes: 'w780',
   });
 
-  console.log('movieDetails', movieDetails);
+  // console.log('movieDetails', movieDetails);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -65,7 +65,7 @@ const MovieInfo = () => {
         />
         <div className={classes.backdropFilter}></div>
       </Box>
-      <Container>
+      <Container maxWidth="xl">
         <Grid
           container
           direction="column"
@@ -76,7 +76,7 @@ const MovieInfo = () => {
             alignItems="center"
             justifyContent="space-between"
           >
-            <Box marginBottom={4} marginTop={8}>
+            <Box marginBottom={1} marginTop={8}>
               {logo ? (
                 <img
                   className={classes.logo}
@@ -91,33 +91,11 @@ const MovieInfo = () => {
                 </Typography>
               )}
             </Box>
-            <Box marginBottom={4} marginTop={8}>
-              {/* <VoteAvarage voteAvarage={movieDetails.vote_average} /> */}
-            </Box>
-          </Grid>
-          <Grid>
-            <Typography
-              variant="h5"
-              className={classes.tagline}
-            >
-              {movieDetails.tagline}
-            </Typography>
-          </Grid>
-          <Grid>
-            <Typography variant="body1" className={classes.overview}>
-              {movieDetails.overview}
-            </Typography>
-          </Grid>
-          <Grid>
-            <Typography>
-              reviews
-            </Typography>
           </Grid>
           <Grid
             container
             direction="row"
             alignItems="center"
-            
           >
             <Grid>
               <GenreRow genres={movieDetails.genres} />
@@ -130,6 +108,25 @@ const MovieInfo = () => {
               />
             </Grid>
           </Grid>
+          <Grid marginTop={4} marginBottom={2}>
+            <Box
+              sx={{ display: 'flex', alignItems: 'flex-end' }}
+            >
+              <Typography
+                variant="h5"
+                className={classes.tagline}
+              >
+                Reviews 
+              </Typography>
+              <ReviewsIcon />
+            </Box>
+          </Grid>
+        
+          <Grid>
+            <Typography>
+              <Reviews reviews={movieDetails.reviews} />
+            </Typography>
+          </Grid>
           
           <Grid>
             
@@ -137,15 +134,30 @@ const MovieInfo = () => {
         </Grid>
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <TabList onChange={handleChange} aria-label="lab API tabs example">
-              <Tab label="You might also like" value="1" />
+            <TabList onChange={handleChange} aria-label="movieTabs">
+              <Tab label="Details" value="1" />
               <Tab label="Actors" value="2" />
-              <Tab label="Details" value="3" />
+              <Tab label="You might also like" value="3" />
             </TabList>
           </Box>
-          <TabPanel value="1"><MovieSlider /></TabPanel>
-          <TabPanel value="2">Actor comp..</TabPanel>
-          <TabPanel value="3">Movie details..</TabPanel>
+          <TabPanel
+            value="1"
+            sx={{ padding: '10px 0' }}
+          >
+            <Details movie={movieDetails} />
+          </TabPanel>
+          <TabPanel
+            value="2"
+            sx={{ padding: '10px 0' }}
+          >
+            actors
+          </TabPanel>
+          <TabPanel
+            value="3"
+            sx={{ padding: '10px 0' }}
+          >
+            movie
+          </TabPanel>
         </TabContext>
       </Container>
     </Box>
