@@ -1,14 +1,13 @@
-import { Typography } from '@mui/material';
+
 import React from 'react';
 
-const VoteAvarage = ({ voteAvarage }) => {
-  console.log('VoteAvarage');
-  if (!voteAvarage) return null;
+const VoteAvarage = ({ movieDetails }) => {
+  const { vote_average: voteAvarage, vote_count: voteCount } = movieDetails;
     
   return (
-    <Typography variant="h2">
-      {voteAvarage} / 10
-    </Typography>
+    <>
+      {voteAvarage && voteAvarage.toFixed(1)} / 10 (from {voteCount && voteCount} votes)
+    </>
   );
 };
 

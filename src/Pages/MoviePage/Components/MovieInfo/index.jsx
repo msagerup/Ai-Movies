@@ -4,7 +4,7 @@ import { Box, Tab, Container, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import TabContext from '@mui/lab/TabContext';
 import { TabList, TabPanel } from '@mui/lab';
-import { Reviews as ReviewsIcon } from '@mui/icons-material';
+
 import { useGetMovieDetailsQuery } from '../../../../Redux/Services/TMDB';
 import useStyles from './styles';
 import useProgressiveImage from '../../../../hooks/UseProgressiveImage';
@@ -12,8 +12,9 @@ import { randomSingleFromArr } from '../../../../helpers/randomSingleFromArr';
 import GenreRow from '../../../../Components/GenreRow';
 
 import MovieLangAndRelease from '../../../../Components/MovieLangAndRelease';
-import Details from './Components';
+
 import Reviews from '../../../../Components/Reviews';
+import MovieDetailsTab from './Components/MovieDetailsTab';
 
 const MovieInfo = () => {
   const classes = useStyles();
@@ -108,24 +109,10 @@ const MovieInfo = () => {
               />
             </Grid>
           </Grid>
-          <Grid marginTop={4} marginBottom={2}>
-            <Box
-              sx={{ display: 'flex', alignItems: 'flex-end' }}
-            >
-              <Typography
-                variant="h5"
-                className={classes.tagline}
-              >
-                Reviews 
-              </Typography>
-              <ReviewsIcon />
-            </Box>
-          </Grid>
-        
           <Grid>
-            <Typography>
-              <Reviews reviews={movieDetails.reviews} />
-            </Typography>
+            <Box>
+              <Reviews movieDetails={movieDetails} />
+            </Box>
           </Grid>
           
           <Grid>
@@ -144,7 +131,7 @@ const MovieInfo = () => {
             value="1"
             sx={{ padding: '10px 0' }}
           >
-            <Details movie={movieDetails} />
+            <MovieDetailsTab movie={movieDetails} />
           </TabPanel>
           <TabPanel
             value="2"

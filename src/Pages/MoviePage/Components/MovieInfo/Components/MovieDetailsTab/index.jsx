@@ -2,9 +2,10 @@ import React from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import { Box, Typography } from '@mui/material';
-import { minToHoursAndMin } from '../../../../../helpers/convert';
+import { minToHoursAndMin } from '../../../../../../helpers/convert';
+
 // Grid version 2
-const Details = ({ movie }) => (
+const MovieDetailsTab = ({ movie }) => (
   <>
     <Box>
       <Typography 
@@ -27,7 +28,7 @@ const Details = ({ movie }) => (
         md={12}
         lg={7}
       >
-       
+        
         <Box>
           <Typography 
             variant="h6" 
@@ -42,6 +43,7 @@ const Details = ({ movie }) => (
             {movie.overview}
           </Typography>
         </Box>
+     
       </Grid>
 
       <Grid
@@ -138,4 +140,4 @@ const Details = ({ movie }) => (
   </>
 );
 
-export default Details;
+export default MovieDetailsTab;

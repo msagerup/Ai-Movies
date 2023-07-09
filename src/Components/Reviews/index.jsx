@@ -1,8 +1,11 @@
-import { Box, Typography } from '@mui/material';
-
-import React from 'react';
+import React, { useMemo, useState } from 'react';
+import { Reviews as ReviewsIcon } from '@mui/icons-material';
+import { Box, Grid, Typography } from '@mui/material';
+import SubtitlesIcon from '@mui/icons-material/Subtitles';
 import { styled } from 'styled-components';
 import useStyles from './styles';
+import VoteAvarage from '../VoteAvarage';
+import { randomSingleFromArr } from '../../helpers/randomSingleFromArr';
 
 const QCard = styled.blockquote`
 margin: 0;
@@ -50,8 +53,18 @@ const Author = styled.div`
   }
 `;
 
-const Reviews = ({ reviews }) => {
+const Reviews = ({ movieDetails }) => {
+  const randomReview = useMemo(
+    () => randomSingleFromArr(movieDetails?.reviews?.results),
+    [movieDetails?.reviews?.results],
+  );
+
+  const reviews = movieDetails.reviews?.results?.length > 0 ? randomReview : null;
+  const [showFullReview, setShowFullReview] = useState(false);
+
   console.log('reviews', reviews);
+  const tagline = movieDetails?.tagline;
+
   const classes = useStyles();
 
   const colorMapping = {
@@ -87,27 +100,55 @@ const Reviews = ({ reviews }) => {
     colorVariables[cssVarName] = selectedColorSet[key];
   }
   return (
-    <Box className={classes.reviewContainer}>
-      <QCard style={colorVariables}>
-        <Typography 
-        
-          variant="h5"
-          sx={{
-     
-            display: '-webkit-box',
-            WebkitBoxOrient: 'vertical',
-            WebkitLineClamp: 5,
-            overflow: 'hidden',
+    <>
+      <Grid marginTop={reviews ? 4 : 2} marginBottom={reviews ? 4 : 2}>
+        <Box
+          sx={{ 
+            display: 'flex',
+            gap: '5px',
+            alignItems: reviews 
+              ? 'flex-end' 
+              : 'center',
           }}
-        
         >
-          {reviews?.results?.length > 0 && reviews.results[0].content}
-        </Typography>
-        <Author style={colorVariables}>
-          {reviews?.results?.length > 0 && reviews.results[0].author}
-        </Author>
-      </QCard>
-    </Box>
+          <Typography
+            variant="h5"
+            className={classes.tagline}
+          >
+            {reviews && 'Reviews'} 
+          </Typography>
+          {reviews && <ReviewsIcon />}
+        </Box>
+      </Grid>
+
+      <Box className={classes.reviewContainer}>
+        <QCard style={colorVariables}>
+          <Box
+            sx={{
+              cursor: reviews ? 'pointer' : 'default',
+            }}
+            onClick={() => setShowFullReview(!showFullReview)}
+          >
+            <Typography 
+              variant="h5"
+              sx={{
+                display: '-webkit-box',
+                WebkitBoxOrient: 'vertical',
+                WebkitLineClamp: showFullReview ? 'inherit' : 5,
+                overflow: 'hidden',
+              }}
+            >
+              {reviews ? reviews.content : tagline}
+            </Typography>
+          </Box>
+          <Author style={colorVariables}>
+            {reviews  
+              ? reviews.author 
+              : <VoteAvarage movieDetails={movieDetails} />}
+          </Author>
+        </QCard>
+      </Box>
+    </>
   );
 };
 
