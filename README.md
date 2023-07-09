@@ -11,10 +11,12 @@ tek : Redux toolkit, react, react-router
 (WIP)
 
 screens: 
+![image](https://github.com/msagerup/Ai-Movies/assets/23620566/429d1157-d9ca-489b-839f-e778cafdc074)
+![image](https://github.com/msagerup/Ai-Movies/assets/23620566/1c7cadb0-5f56-4db4-adcf-206e2f300ade)
 
-![image](https://github.com/msagerup/Ai-Movies/assets/23620566/0806611b-7494-4622-aeb1-59eda0269842) ![image](https://github.com/msagerup/Ai-Movies/assets/23620566/a8c4a133-2db7-4b71-bb38-833740262523) ![image](https://github.com/msagerup/Ai-Movies/assets/23620566/57cad535-ad57-439f-a75e-9236965138ba)
 
 
+![image](https://github.com/msagerup/Ai-Movies/assets/23620566/8bfd75fa-baa7-463c-befc-690167565bdc)
 
 
 
