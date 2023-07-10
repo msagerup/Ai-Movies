@@ -29,7 +29,7 @@ const NavBar = () => {
   const { user, isAuthenticated } = useSelector(userSelector);
   const classes = useStyles();
   const isMobile = useMediaQuery('(max-width: 900px)');
-  const [isUnderDev, setIsUnderDev] = useState(false);
+  const [isUnderDev, setIsUnderDev] = useState(true);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -77,7 +77,7 @@ const NavBar = () => {
               onClick={() => setIsUnderDev(false)}
             >
               *** Click to hide -- WIP -- Working on mobile rendering.
-              And redesign of movie details Last updated, 9th July 2023. (Click to hide). 
+              And redesign of movie details Last updated, 10th July 2023. (Click to hide). 
               NB! Project is under development. Click to hide ***
             </Typography>
             )}

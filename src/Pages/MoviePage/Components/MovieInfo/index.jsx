@@ -120,7 +120,9 @@ const MovieInfo = () => {
           </Grid>
         </Grid>
         <TabContext value={value}>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Box 
+            sx={{ borderBottom: 1, borderColor: 'divider' }}
+          >
             <TabList onChange={handleChange} aria-label="movieTabs">
               <Tab label="Details" value="1" />
               <Tab label="Actors" value="2" />
@@ -147,6 +149,7 @@ const MovieInfo = () => {
           </TabPanel>
         </TabContext>
       </Container>
+      <Box className={classes.footerGradient}></Box>
     </Box>
   );
 };
