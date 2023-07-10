@@ -15,11 +15,12 @@ import MovieLangAndRelease from '../../../../Components/MovieLangAndRelease';
 
 import Reviews from '../../../../Components/Reviews';
 import MovieDetailsTab from './Components/MovieDetailsTab';
+import ContentSlider from '../../../../Components/ContentSlider';
 
 const MovieInfo = () => {
   const classes = useStyles();
   const { id } = useParams();
-  const [value, setValue] = useState('1');
+  const [value, setValue] = useState('2');
   const { data: movieDetails, isLoading, isFetching } = useGetMovieDetailsQuery(id);
 
   const randomBackdrop = useMemo(() => randomSingleFromArr(movieDetails?.images.backdrops)?.file_path, [movieDetails]);
@@ -46,6 +47,8 @@ const MovieInfo = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  // console.log('movieDetails', movieDetails);
 
   //   console.log(movieDetails.genres, '**MOVIEDET*');
   if (isFetching || isLoading || !movieDetails) return <div>Loading...</div>;
@@ -139,7 +142,7 @@ const MovieInfo = () => {
             value="2"
             sx={{ padding: '10px 0' }}
           >
-            actors
+            <ContentSlider content={movieDetails?.credits?.cast} />
           </TabPanel>
           <TabPanel
             value="3"

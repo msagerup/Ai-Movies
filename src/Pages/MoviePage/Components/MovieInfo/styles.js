@@ -57,7 +57,8 @@ export default makeStyles((theme) => ({
       zIndex: -1,
       backgroundImage: theme.palette.mode === 'dark' 
         ? 'radial-gradient(closest-side at 62% 27%, transparent 85%, rgb(18 18 18) 144%)' 
-        : 'radial-gradient(farthest-side at 73% 21%, transparent, rgb(255 255 255))',    
+        : 'radial-gradient(closest-side at 62% 27%, transparent 85%, rgb(255 255 255) 144%)', 
+        
     },
   },
 }));

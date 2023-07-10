@@ -62,7 +62,6 @@ const Reviews = ({ movieDetails }) => {
   const reviews = movieDetails.reviews?.results?.length > 0 ? randomReview : null;
   const [showFullReview, setShowFullReview] = useState(false);
 
-  console.log('reviews', reviews);
   const tagline = movieDetails?.tagline;
 
   const classes = useStyles();
