@@ -47,6 +47,8 @@ const FeaturedMovie = () => {
 
   const { addToFavorites, isMovieFavorited } = UseAddToFavorite({ id: movieDetails?.id });
 
+  console.log('movieDetails', movieDetails);
+
   useEffect(
     () => 
     // Clenup timout of when components demounts, if it's running
@@ -133,32 +135,50 @@ const FeaturedMovie = () => {
                   }}
                 >
                   <Box>
-                    <Box>
+                    <Box marginBottom={1}>
                       <Typography
                         className={classes.movieTitle} 
                         variant={isMobile ? 'h3' : 'h2'} 
-                        gutterBottom
+
                       >{movieDetails.title}
                       </Typography>
                     </Box>
-                    <MovieLangAndRelease 
-                      variant="body2"
-                      runtime={movieDetails?.runtime} 
-                      languages={movieDetails.spoken_languages} 
-                    />
-             
+                    
+                    <Box marginBottom={1}>
+                      <MovieLangAndRelease 
+                        variant="body2"
+                        runtime={movieDetails?.runtime} 
+                        languages={movieDetails.spoken_languages}
+                      />
+                    </Box>
+                    <Box marginBottom={4}>
+                      <GenreRow genres={movieDetails.genres} />
+                    </Box>
+                    <Box
+                      marginBottom={1}
+                  // TODO:  Implement this 
+                  // https://css-tricks.com/line-clampin/
+                      sx={{
+                        width: '300px',
+                        display: '-webkit-box',
+                        WebkitBoxOrient: 'vertical',
+                        WebkitLineClamp: 5,
+                        overflow: 'hidden',
+                      }}
+                    >
+                      <Typography variant={isMobile ? 'h5' : 'h4'}>{movieDetails.tagline}</Typography>
+                    </Box>
                     <Grid
                       container
                       direction="row"
                       alignItems="center"
-                      marginBottom={4} 
                       marginTop={4}
                       gap={2}
                     > 
                       <Grid>
                         <Button 
                           variant="contained"
-                          size="large"
+                          size="medium"
                           startIcon={<PlayArrowIcon />}
                           onClick={handlePlayTrailerButton}
                         >
@@ -169,7 +189,7 @@ const FeaturedMovie = () => {
                         <Tooltip title={`More info about ${movieDetails.title}`} placement="bottom">
                           <Button 
                             variant="outlined"
-                            size="large"
+                            size="medium"
                             component={Link}
                             to={`/movie/${movieDetails.id}`}
                             startIcon={<InfoIcon />}
@@ -182,7 +202,7 @@ const FeaturedMovie = () => {
                       </Grid>
                       <Grid>
 
-                        {isMovieFavorited ? (
+                        {/* {isMovieFavorited ? (
                           <Tooltip title="Remove from favorites" placement="bottom">
                             <IconButton
                               onClick={() => addToFavorites(movieDetails.id)}
@@ -201,28 +221,12 @@ const FeaturedMovie = () => {
                               <ControlPointIcon fontSize="large" />
                             </IconButton>
                           </Tooltip>
-                        ) }
+                        ) } */}
                   
                       </Grid>
                      
                     </Grid>
-                    <Box
-                      marginBottom={2}
-                  // TODO:  Implement this 
-                  // https://css-tricks.com/line-clampin/
-                      sx={{
-                        width: '300px',
-                        display: '-webkit-box',
-                        WebkitBoxOrient: 'vertical',
-                        WebkitLineClamp: 5,
-                        overflow: 'hidden',
-                      }}
-                    >
-                      <Typography>{movieDetails.overview}</Typography>
-                    </Box>
-                    <Box marginBottom={2}>
-                      <GenreRow genres={movieDetails.genres} />
-                    </Box>
+                    
                   </Box>
                 </Box>
               </CardContent>

@@ -34,7 +34,7 @@ export default makeStyles((theme) => ({
     height: '100%',
     width: '100%',
     backgroundColor: 'rgba(0,0,0,0.575)',
-    backgroundBlendMode: theme.palette.mode === 'dark' ? 'luminosity' : 'luminosity',
+    backgroundBlendMode: 'luminosity',
     
   },
   cardContent: {
@@ -62,9 +62,11 @@ export default makeStyles((theme) => ({
     left: '0',
     width: '100%',
     height: '100%',
-    backgroundImage: theme.palette.mode === 'dark' ? 'radial-gradient(farthest-side at 73% 21%, transparent 65%, rgb(18 18 18))' : 'radial-gradient(farthest-side at 73% 21%, transparent, rgb(255 255 255) )',    
+    backgroundImage: theme.palette.mode === 'dark' 
+      ? 'radial-gradient(farthest-side at 73% 21%, transparent 25%, rgb(18 18 18))' 
+      : 'radial-gradient(farthest-side at 73% 21%, transparent,  rgb(255 255 255) )',    
     [theme.breakpoints.down('md')]: {
-      backgroundColor: theme.palette.mode === 'dark' ? 'rgb(0 0 0 / 39%)' : 'rgb(212 212 212 / 57%)',
+      backgroundColor: theme.palette.mode === 'dark' ? 'rgb(0 0 0 / 39%)' : 'rgb(212 212 212 / 30%)',
       color: theme.palette.mode === 'dark' ? 'white' : '#121212',
       height: '100%',
     },
