@@ -51,6 +51,9 @@ export default makeStyles((theme) => ({
 
   movieTitle: {
     maxWidth: '70%',
+    [theme.breakpoints.down('sm')]: {
+      maxWidth: '90%',
+    },
   },
 
   cardContentRoot: {

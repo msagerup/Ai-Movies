@@ -20,6 +20,7 @@ import Search from '../Search';
 import useStyles from './styles.js';
 import { fetchToken, createSessionId, moviesApi } from '../../utils';
 import HideOnScroll from '../HideOnScroll';
+import UseAlanAi from '../../hooks/UseAlanAi';
 
 const token = localStorage.getItem('request_token');
 const sessionIdFromLocalStorage = localStorage.getItem('session_id');
@@ -29,7 +30,9 @@ const NavBar = () => {
   const { user, isAuthenticated } = useSelector(userSelector);
   const classes = useStyles();
   const isMobile = useMediaQuery('(max-width: 900px)');
-  const [isUnderDev, setIsUnderDev] = useState(true);
+  const [isUnderDev, setIsUnderDev] = useState(false);
+
+  UseAlanAi();
 
   const dispatch = useDispatch();
   useEffect(() => {

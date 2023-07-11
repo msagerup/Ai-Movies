@@ -17,6 +17,7 @@ import YouTubeContainer from '../../../../Components/YouTubeContainer';
 import UseAddToFavorite from '../../../../hooks/UseAddToFavorite';
 import GenreRow from '../../../../Components/GenreRow';
 import MovieLangAndRelease from '../../../../Components/MovieLangAndRelease';
+import { userSelector } from '../../../../Redux/Features/auth';
 // TODO:
  
 // 1. Add volume controll and mute button to youtube player.
@@ -28,6 +29,7 @@ import MovieLangAndRelease from '../../../../Components/MovieLangAndRelease';
 // 9. When not playing a movie trailer, carusell should be able to flipp images
 
 const FeaturedMovie = () => {
+  const { user } = useSelector(userSelector);
   const classes = useStyles();
   const movieDetails = useSelector(selectMovieDetails);
   const movieTrailerFromRedux = useSelector(selectMovieTrailer);
@@ -162,7 +164,21 @@ const FeaturedMovie = () => {
                           Play Trailer
                         </Button>
                       </Grid>
-
+                      <Grid>
+                        <Tooltip title={`More info about ${movieDetails.title}`} placement="bottom">
+                          <Button 
+                            variant="outlined"
+                            size="large"
+                            component={Link}
+                            to={`/movie/${movieDetails.id}`}
+                            startIcon={<InfoIcon />}
+                            onClick={handlePlayTrailerButton}
+                          >
+                            More info
+                          </Button>
+                        
+                        </Tooltip>
+                      </Grid>
                       <Grid>
 
                         {isMovieFavorited ? (
@@ -177,6 +193,7 @@ const FeaturedMovie = () => {
                         ) : (
                           <Tooltip title="Add to favorites" placement="bottom">
                             <IconButton
+                              disabled={!user?.id}
                               onClick={() => addToFavorites(movieDetails.id)}
                               size="large"
                             >
@@ -186,16 +203,7 @@ const FeaturedMovie = () => {
                         ) }
                   
                       </Grid>
-                      <Grid>
-                        <Tooltip title={`More info about ${movieDetails.title}`} placement="bottom">
-                          <IconButton
-                            component={Link}
-                            to={`/movie/${movieDetails.id}`}
-                          >
-                            <InfoIcon fontSize="large" />
-                          </IconButton>
-                        </Tooltip>
-                      </Grid>
+                     
                     </Grid>
                     <Box
                       marginBottom={2}

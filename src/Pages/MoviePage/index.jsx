@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Affix } from 'antd';
-import { useMediaQuery } from '@mui/material';
+
 import { useDispatch } from 'react-redux';
 import FeaturedMovie from './Components/MovieHero';
 import Movies from './Components/Movies';
@@ -9,7 +9,6 @@ import { setPlayMovieTrailer } from '../../Redux/Features/movieDetails';
 import { setVideoPlayerState } from '../../Redux/Features/videoPlayerState';
 
 const MoviePage = () => {
-  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('lg'));
   const dispatch = useDispatch();
   const [isMouseOut, setIsMouseOut] = useState(false);
   const timerRef = useRef(null);

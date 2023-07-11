@@ -11,7 +11,7 @@ const routes = createBrowserRouter([
   {
     path: '/',
     element: <MainLayout />,
-    // errorElement: <ErrorPage />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,
@@ -32,7 +32,7 @@ const routes = createBrowserRouter([
   {
     path: '/movie/:id',
     element: <MovieInfoLayout />,
-    // errorElement: <ErrorPage />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,

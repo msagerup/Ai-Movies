@@ -1,20 +1,24 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import React from 'react';
-
+import { useNavigate } from 'react-router-dom';
 import useProgressiveImage from '../../../../../../hooks/UseProgressiveImage';
 import useStyles from './styles';
 
-const MovieActorsTab = ({ actor }) => {
+const MovieSuggestion = ({ movie }) => {
   const classes = useStyles();
+  const navigate = useNavigate();
 
   const { currentSrc, loading } = useProgressiveImage({
-    filePath: actor.profile_path,
-    type: 'profile',
-    highRes: 'original',
-    lowRes: 'h632', 
+    filePath: movie.poster_path,
+    type: 'poster',
+    highRes: 'w780',
+    lowRes: 'w342', 
   });
 
-  if (!currentSrc) return null;
+  const handleFetchMovieDetails = () => {
+    navigate(`/movie/${movie.id}`);
+  };
+
   return (
     <Box>
       <Box 
@@ -38,19 +42,18 @@ const MovieActorsTab = ({ actor }) => {
             width: '100%',
           }}
         />
-        
-        <Box className={classes.content}>
-          <Typography variant="body2" textAlign="center">
-            {actor.name}
-          </Typography>
-          <Typography variant="body2" textAlign="center">
-            {actor.character}
-          </Typography>
-        </Box>
       </Box>
-      
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          cursor: 'pointer',
+        }}
+      >
+        <Button onClick={handleFetchMovieDetails}>more info</Button>
+      </Box>
     </Box>
   );
 };
 
-export default MovieActorsTab;
+export default MovieSuggestion;

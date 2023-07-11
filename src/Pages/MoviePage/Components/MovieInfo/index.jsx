@@ -20,15 +20,13 @@ import ContentSlider from '../../../../Components/ContentSlider';
 const MovieInfo = () => {
   const classes = useStyles();
   const { id } = useParams();
-  const [value, setValue] = useState('2');
+  const [value, setValue] = useState('1');
   const { data: movieDetails, isLoading, isFetching } = useGetMovieDetailsQuery(id);
 
   const randomBackdrop = useMemo(() => randomSingleFromArr(movieDetails?.images.backdrops)?.file_path, [movieDetails]);
-
-  //   const logoImage = movieDetails?.images?.logos?.find((logo) => logo.iso_639_1 === 'en')?.file_path;
   const logoImage = movieDetails?.images?.logos[0]?.file_path;
 
-  const { currentSrc, loading } = useProgressiveImage({
+  const { currentSrc } = useProgressiveImage({
     filePath: randomBackdrop,
     type: 'backdrop',
     highRes: 'w1280',
@@ -42,22 +40,15 @@ const MovieInfo = () => {
     lowRes: 'w780',
   });
 
-  // console.log('movieDetails', movieDetails);
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  // console.log('movieDetails', movieDetails);
-
-  //   console.log(movieDetails.genres, '**MOVIEDET*');
   if (isFetching || isLoading || !movieDetails) return <div>Loading...</div>;
 
   return (
     <Box>
-     
       <Box className={classes.backgroundImageContainer}>
-        {/* backdrop image */}
         <img 
           className={classes.backgroundImage}
           src={currentSrc}
@@ -142,13 +133,13 @@ const MovieInfo = () => {
             value="2"
             sx={{ padding: '10px 0' }}
           >
-            <ContentSlider content={movieDetails?.credits?.cast} />
+            <ContentSlider content={movieDetails?.credits?.cast} type="actors" />
           </TabPanel>
           <TabPanel
             value="3"
             sx={{ padding: '10px 0' }}
           >
-            movie
+            <ContentSlider content={movieDetails?.similar?.results} type="movies" />
           </TabPanel>
         </TabContext>
       </Container>
