@@ -1,28 +1,16 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Card } from '@mui/material';
-
 import { useDispatch } from 'react-redux';
-
-import { useTheme } from '@emotion/react';
-import { useDebounce } from 'use-debounce';
-import useStyles from './styles.js';
-import { selectMovieTrailer, setMovieDetails, setPlayMovieTrailer } from '../../../../Redux/Features/movieDetails.js';
+import { setMovieDetails } from '../../../../Redux/Features/movieDetails.js';
 import useProgressiveImage from '../../../../hooks/UseProgressiveImage.jsx';
-import { randomSingleFromArr } from '../../../../helpers/randomSingleFromArr.js';
 import { useGetMovieDetailsQuery } from '../../../../Redux/Services/TMDB.js';
 
-const Movie = ({ movie, index, shouldFetchMovieDetails, activeMovieId }) => {
-  const classes = useStyles();
+const Movie = ({ movie }) => {
   const dispatch = useDispatch();
   const [isHovering, setIsHovering] = useState(false);
-  const { data: movieDetails, isLoading, isError, refetch } = useGetMovieDetailsQuery(movie.id);
-  const [animationTimeDelay, setAnimationTimeDelay] = useState('');
-  const [staggeredAnimation, setStaggeredAnimation] = useState(false);
-  //   const debouncedDispatchMovieDetails = useMemo(() => 
-  //   debounce((movieDetails) => dispatch(setMovieDetails(movieDetails)), 1000), [dispatch]
-  // );
-
+  const { data: movieDetails } = useGetMovieDetailsQuery(movie.id);
+  
   const { currentSrc, loading } = useProgressiveImage({
     filePath: movie?.backdrop_path,
     type: 'backdrops',
@@ -30,27 +18,7 @@ const Movie = ({ movie, index, shouldFetchMovieDetails, activeMovieId }) => {
     lowRes: 'w300',
   });
 
-  // console.log('animationTimeDelay');
-
-  // TODO: Use Styled Components to creade a costum card for animation.
-
-  // useEffect(() => () => {
-  //   if (staggeredAnimation) {
-  //     setStaggeredAnimation(false);
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   // if (index === 0) return;
-
-  //   setAnimationTimeDelay(delay);
-  //   setStaggeredAnimation(true);
-  // }, [index]);
-
   const handleOnMouseEnter = () => {
-    // Sets the movie details in the store. This is the one rendered in the Hero comp.
-    // dispatch(setMovieDetails(movieDetails));
-    // Controlls animation on card hover.
     setIsHovering(true);
   }; 
 
@@ -61,7 +29,6 @@ const Movie = ({ movie, index, shouldFetchMovieDetails, activeMovieId }) => {
   const handleOnClick = () => {
     window.scrollTo(0, 0, 'smooth');
     dispatch(setMovieDetails(movieDetails));
-    // dispatch(setPlayMovieTrailer(randomSingleFromArr(movieDetails?.videos?.results)));
   };
 
   return (
@@ -98,13 +65,10 @@ const Movie = ({ movie, index, shouldFetchMovieDetails, activeMovieId }) => {
            
             top: 0,
             left: 0,
-            // zIndex: 100,
             width: '100%',
             height: '100%',
-            opacity: isHovering ? 0.5 : 1,
+            opacity: loading || isHovering ? 0.5 : 1,
             transition: 'opacity .3s linear, filter .3s linear',
-            // transition: `opacity ${animationTimeDelay} linear, filter ${animationTimeDelay} linear`,
-
             backgroundImage: `url(${currentSrc})`,
             backgroundSize: 'cover',
             overflow: 'hidden',
