@@ -59,7 +59,8 @@ const FeaturedMovie = () => {
   useEffect(() => {
     setBackdropImage(`${randomSingleFromArr(movieDetails?.images?.backdrops)?.file_path}`);
     setTrailer(`${randomSingleFromArr(movieDetails?.videos?.results)?.key}`);
-  }, [movieDetails]);
+    setTriggerPlayTrailer(false);
+  }, [movieDetails.id]);
 
   const { currentSrc, loading } = useProgressiveImage({
     filePath: backdropImage,
