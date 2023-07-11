@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Affix } from 'antd';
 
 import { useDispatch } from 'react-redux';
+import { Box } from '@mui/material';
 import FeaturedMovie from './Components/MovieHero';
 import Movies from './Components/Movies';
 import Pagination from '../../Components/Pagination';
@@ -56,7 +57,10 @@ const MoviePage = () => {
       )}
      
       <Movies />
-      <Pagination />
+      <Box marginBottom={4} marginTop={1}> 
+        <Pagination />
+      </Box>
+     
     </div>
   );
 };

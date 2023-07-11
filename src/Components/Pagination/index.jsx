@@ -24,7 +24,7 @@ const Pagination = () => {
           count={500}
           page={page}
           onChange={handleChange}
-          size={lg ? 'large' : 'small'}
+          size={lg ? 'large' : 'medium'}
           variant="outlined"
           shape="rounded"
           color="primary"
