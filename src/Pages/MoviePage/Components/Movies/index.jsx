@@ -38,9 +38,12 @@ const Movies = () => {
     );
   }
 
+  // If movie does not have backdrop path, do not render it
+  const filteredMovies = data?.results?.filter((movie) => movie.backdrop_path);
+
   return (
     <div style={{ paddingBottom: '30px' }}>
-      <MovieList movies={data.results} shouldFetchMovieDetails />
+      <MovieList movies={filteredMovies} shouldFetchMovieDetails />
     </div>
   );
 };

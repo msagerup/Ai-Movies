@@ -18,6 +18,8 @@ const Movie = ({ movie }) => {
     lowRes: 'w300',
   });
 
+  console.log(movieDetails);
+
   const handleOnMouseEnter = () => {
     setIsHovering(true);
   }; 

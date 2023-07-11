@@ -9,7 +9,7 @@ import useStyles from './styles.js';
 const MovieList = ({ movies, shouldFetchMovieDetails }) => {
   const isMdorLarger = useMediaQuery((theme) => theme.breakpoints.up('md'));
   const classes = useStyles();
-  const numberOfMovies = isMdorLarger ? 15 : 12;
+  const numberOfMovies = isMdorLarger ? 16 : 8;
 
   const activeMovie = useSelector(selectMovieDetails);
 
