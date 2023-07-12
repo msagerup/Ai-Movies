@@ -47,8 +47,6 @@ const FeaturedMovie = () => {
 
   const { addToFavorites, isMovieFavorited } = UseAddToFavorite({ id: movieDetails?.id });
 
-  console.log('movieDetails', movieDetails);
-
   useEffect(
     () => 
     // Clenup timout of when components demounts, if it's running
@@ -151,7 +149,7 @@ const FeaturedMovie = () => {
                         languages={movieDetails.spoken_languages}
                       />
                     </Box>
-                    <Box marginBottom={4}>
+                    <Box marginBottom={isMobile ? 2 : 4}>
                       <GenreRow genres={movieDetails.genres} />
                     </Box>
                     <Box
@@ -159,20 +157,28 @@ const FeaturedMovie = () => {
                   // TODO:  Implement this 
                   // https://css-tricks.com/line-clampin/
                       sx={{
-                        width: '300px',
+                        width: isMobile ? '300px' : '600px',
                         display: '-webkit-box',
                         WebkitBoxOrient: 'vertical',
-                        WebkitLineClamp: 5,
+                        WebkitLineClamp: isMobile ? 3 : 6,
                         overflow: 'hidden',
                       }}
                     >
-                      <Typography variant={isMobile ? 'h5' : 'h4'}>{movieDetails.tagline}</Typography>
+                      {movieDetails.overview 
+                        ? (
+                          <Typography
+                            variant="body2"
+                            color="textSecondary"
+                          >
+                            {movieDetails.overview} 
+                          </Typography>
+                        ) : <Typography color="textSecondary" variant={isMobile ? 'h5' : 'h4'}>{movieDetails.tagline}</Typography>}
                     </Box>
                     <Grid
                       container
                       direction="row"
                       alignItems="center"
-                      marginTop={4}
+                      marginTop={isMobile ? 2 : 4}
                       gap={2}
                     > 
                       <Grid>
