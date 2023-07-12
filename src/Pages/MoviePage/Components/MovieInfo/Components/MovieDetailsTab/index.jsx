@@ -39,7 +39,7 @@ const MovieDetailsTab = ({ movie }) => (
           >
             {movie.tagline}
           </Typography>
-          <Typography variant="subtitle1">
+          <Typography variant="subtitle1" color="textSecondary">
             {movie.overview}
           </Typography>
         </Box>
