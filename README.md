@@ -8,6 +8,7 @@ https://filmnerd.netlify.app/
 If you want to use this application, there's a few steps you need to do. 
 
 1. Use your own TMDB api key, this should be stored in a .env file.
+2. Create your own token with Alan AI
 
 https://developer.themoviedb.org/docs
 
