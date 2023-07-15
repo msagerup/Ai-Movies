@@ -11,7 +11,7 @@ If you want to use this application, there's a few steps you need to do.
 
 https://developer.themoviedb.org/docs
 
-tek : Redux toolkit, react, react-router
+tech : Redux toolkit, react, react-router
 
 
 
