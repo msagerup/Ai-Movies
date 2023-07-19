@@ -16,8 +16,10 @@ tech : Redux toolkit, react, react-router, Alan AI
 
 
 
-screens: 
-![image](https://github.com/msagerup/Ai-Movies/assets/23620566/c01d868f-dadd-4c52-b091-23d0356f6ff3)
+![image](https://github.com/msagerup/Ai-Movies/assets/23620566/f7cbc3fb-c2f0-468a-b7be-3f28e1be7951)
+
+(damn that looks good.. )
+
 
 
 
