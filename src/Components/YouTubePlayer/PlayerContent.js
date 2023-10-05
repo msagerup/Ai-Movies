@@ -1,9 +1,7 @@
 import { Box } from '@mui/material';
-import React, { forwardRef, useImperativeHandle, useMemo } from 'react';
+import React, { forwardRef, useImperativeHandle } from 'react';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { NotStarted } from '@mui/icons-material';
-import { useSelector } from 'react-redux';
-import { selectVideoPlayerState } from '../../Redux/Features/videoPlayerState';
 
 const PlayerContent = forwardRef(({ width, height, player }) => {
   useImperativeHandle(player, () => ({
@@ -12,21 +10,6 @@ const PlayerContent = forwardRef(({ width, height, player }) => {
     mute: () => player.mute(),
   }));
 
-  console.log('player', player);
-
-  const videostate = useSelector(selectVideoPlayerState);
-
-  // console.log('videostate****', videostate);
-
-  // const theme = useMemo(() => createTheme({
-  //   palette: {
-  //     mode,
-  //   },
-  // }), [mode]);
-  // console.log('playerController', props);
-  // const { play, pause, mute } = player.current;
-
-  // console.log('videostate', videostate);
   if (!player?.current) return null;
   
   const { play, pause, mute } = player.current;
@@ -57,9 +40,9 @@ const PlayerContent = forwardRef(({ width, height, player }) => {
           </Grid>
 
         </Grid>
-        <button onClick={() => play()}>play</button>
-        <button onClick={() => pause()}>pause</button>
-        <button onClick={() => mute()}>mute</button> 
+        <button type="button" onClick={() => play()}>play</button>
+        <button type="button" onClick={() => pause()}>pause</button>
+        <button type="button" onClick={() => mute()}>mute</button> 
       </Box> 
     </Box>
   );

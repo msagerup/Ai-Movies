@@ -1,12 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, Button, Typography, Card, CardContent, CardMedia, Tooltip, IconButton, useMediaQuery } from '@mui/material';
+import { Box, Button, Typography, Card, CardContent, CardMedia, Tooltip, useMediaQuery } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { Link } from 'react-router-dom';
-
 import { useSelector } from 'react-redux';
-import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import InfoIcon from '@mui/icons-material/Info';
 import useStyles from './styles';
 import { selectMovieDetails, selectMovieTrailer } from '../../../../Redux/Features/movieDetails';
@@ -14,10 +11,10 @@ import { randomSingleFromArr } from '../../../../helpers/randomSingleFromArr';
 import UseElmDimentions from '../../../../hooks/UseElmDimentions';
 import useProgressiveImage from '../../../../hooks/UseProgressiveImage';
 import YouTubeContainer from '../../../../Components/YouTubeContainer';
-import UseAddToFavorite from '../../../../hooks/UseAddToFavorite';
 import GenreRow from '../../../../Components/GenreRow';
 import MovieLangAndRelease from '../../../../Components/MovieLangAndRelease';
-import { userSelector } from '../../../../Redux/Features/auth';
+import StaggerHeroImage from '../../../../Animations/StaggerHeroImage';
+
 // TODO:
  
 // 1. Add volume controll and mute button to youtube player.
@@ -29,7 +26,6 @@ import { userSelector } from '../../../../Redux/Features/auth';
 // 9. When not playing a movie trailer, carusell should be able to flipp images
 
 const FeaturedMovie = () => {
-  const { user } = useSelector(userSelector);
   const classes = useStyles();
   const movieDetails = useSelector(selectMovieDetails);
   const movieTrailerFromRedux = useSelector(selectMovieTrailer);
@@ -38,21 +34,15 @@ const FeaturedMovie = () => {
   const { width, height } = UseElmDimentions(featuredCardContainer);  
   const [backdropImage, setBackdropImage] = useState(`${randomSingleFromArr(movieDetails?.images?.backdrops)?.file_path}`);
   const [trailer, setTrailer] = useState(`${randomSingleFromArr(movieDetails?.videos?.results)?.key}`);
-  const playerRef = useRef(null);
-  const youTubeContainerRef = useRef(null);
   const timeOutRef = useRef(null);
   const [triggerPlayTrailer, setTriggerPlayTrailer] = useState(false);
 
   const isMobile = useMediaQuery('(max-width: 900px)');
 
-  const { addToFavorites, isMovieFavorited } = UseAddToFavorite({ id: movieDetails?.id });
-
   useEffect(
-    () => 
-    // Clenup timout of when components demounts, if it's running
-      () => {
-        if (timeOutRef.current) clearTimeout(timeOutRef.current);
-      },
+    () => () => {
+      if (timeOutRef.current) clearTimeout(timeOutRef.current);
+    },
     [],
   );
 
@@ -87,8 +77,9 @@ const FeaturedMovie = () => {
       className={classes.featuredCardContainer}
       onMouseLeave={handleOnMouseLeave}
     >
+      <StaggerHeroImage backdropImage={backdropImage} height={height} width={width} />
       
-      <Card className={classes.card} classes={{ root: classes.cardRoot }}>
+      {/* <Card className={classes.card} classes={{ root: classes.cardRoot }}>
         {triggerPlayTrailer || movieTrailerIdFromRedux
           ? (
             <div 
@@ -154,8 +145,6 @@ const FeaturedMovie = () => {
                     </Box>
                     <Box
                       marginBottom={1}
-                  // TODO:  Implement this 
-                  // https://css-tricks.com/line-clampin/
                       sx={{
                         width: isMobile ? '300px' : '600px',
                         display: '-webkit-box',
@@ -203,43 +192,23 @@ const FeaturedMovie = () => {
                           >
                             More info
                           </Button>
+                          <Button
+                            onClick={() => renderNextImage()}
+                          >
+                            Next image
+                          </Button>
                         
                         </Tooltip>
                       </Grid>
                       <Grid>
-
-                        {/* {isMovieFavorited ? (
-                          <Tooltip title="Remove from favorites" placement="bottom">
-                            <IconButton
-                              onClick={() => addToFavorites(movieDetails.id)}
-                              size="large"
-                            >
-                              <FavoriteIcon fontSize="large" />
-                            </IconButton>
-                          </Tooltip>
-                        ) : (
-                          <Tooltip title="Add to favorites" placement="bottom">
-                            <IconButton
-                              disabled={!user?.id}
-                              onClick={() => addToFavorites(movieDetails.id)}
-                              size="large"
-                            >
-                              <ControlPointIcon fontSize="large" />
-                            </IconButton>
-                          </Tooltip>
-                        ) } */}
-                  
                       </Grid>
-                     
                     </Grid>
-                    
                   </Box>
                 </Box>
               </CardContent>
             </>
           ) }
-          
-      </Card>
+      </Card> */}
     </Box>
   );
 };
