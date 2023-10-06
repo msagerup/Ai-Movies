@@ -1,5 +1,5 @@
 import { useMediaQuery } from '@mui/material';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 /* 
 - "base_url": "http://image.tmdb.org/t/p/", "secure_base_url": "https://image.tmdb.org/t/p/"
@@ -18,6 +18,10 @@ const useProgressiveImage = ({ filePath, lowRes, highRes, type }) => {
 
   useEffect(() => {
     if (filePath === 'undefined') return;
+
+    if (filePath.includes('localhost')) {
+      console.log(filePath);
+    }
 
     let highResImage = highRes;
     if (isMobile) {

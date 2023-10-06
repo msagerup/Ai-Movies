@@ -1,9 +1,9 @@
-import React, { useState, useLayoutEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import anime from 'animejs';
+import { getDarkThemeColors } from '../../helpers/darkThemeColors';
 import { randomSingleFromArr } from '../../helpers/randomSingleFromArr';
 import useStyles from './styles';
-import { getDarkThemeColors } from '../../helpers/darkThemeColors';
 
 const StaggerHeroImage = ({ backdropImage, height, width, backdrops, setBackdropImage }) => {
   const classes = useStyles();
@@ -12,6 +12,10 @@ const StaggerHeroImage = ({ backdropImage, height, width, backdrops, setBackdrop
   const darkColors = getDarkThemeColors(8);
   const wrapperRef = useRef();
 
+  // console.log(backdrops);
+
+  // console.log(`https://image.tmdb.org/t/p/original${backdropImage}`);
+  // https://image.tmdb.org/t/p/original${backdropImage}
   useLayoutEffect(() => {
     setColumns(Math.floor(width / 50));
     setRows(Math.floor(height / 50));
@@ -60,6 +64,8 @@ const StaggerHeroImage = ({ backdropImage, height, width, backdrops, setBackdrop
         />
       ))}
     </div>
+  // </div>
+    
   ); 
 };
 
