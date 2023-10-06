@@ -25,6 +25,7 @@ const UseElmDimentions = (elmRef) => {
         }
       };
     }
+    return () => null;
   }, [elmRef]);
   
   return dimensions;

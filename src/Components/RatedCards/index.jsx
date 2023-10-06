@@ -1,22 +1,10 @@
 import React from 'react';
 import { Typography, Box, Grid, Card, CardMedia, CardContent } from '@mui/material';
-
-import useProgressiveImage from '../../hooks/UseProgressiveImage.jsx';
 import useStyles from './styles.js';
 
 const RatedCards = ({ title, data }) => {
   const classes = useStyles();
-  // TODO: use Find to find the correct value for the image
-  // Also this card component is fucked, make own.
-
-  //   const { currentSrc, loading } = useProgressiveImage({
-  //     filePath: data?.results?.poster_path,
-  //     type: 'poster',
-  //     highRes: 'original',
-  //     lowRes: 'w500',
-  //   });
-
-  console.log('s');
+ 
   return (
     <Box marginTop={2}>
       <Typography variant="h5" gutterBottom>{title}</Typography>
