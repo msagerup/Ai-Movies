@@ -11,7 +11,7 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import StaggerHeroImage from '../../../../Animations/StaggerHeroImage';
@@ -37,15 +37,24 @@ const FeaturedMovie = () => {
   const [backdropImage, setBackdropImage] = useState(
     `${randomSingleFromArr(movieDetails?.images?.backdrops)?.file_path}`,
   );
+  const backdrops = movieDetails?.images?.backdrops;
+  // Sets background image
+  const { currentSrc, loading } = useProgressiveImage({
+    filePath: backdropImage,
+    type: 'backdrop',
+    highRes: 'original',
+    lowRes: 'w300',
+  });
+
   const [trailer, setTrailer] = useState(
     `${randomSingleFromArr(movieDetails?.videos?.results)?.key}`,
   );
   const timeOutRef = useRef(null);
   const [triggerPlayTrailer, setTriggerPlayTrailer] = useState(false);
+  const [isMouseOverHero, setIsMouseOverHero] = useState(false);
+  const [preloadedNextImage, setPreloadedNextImage] = useState('');
 
   const isMobile = useMediaQuery('(max-width: 900px)');
-
-  const backdrops = movieDetails?.images?.backdrops;
 
   useEffect(
     () => () => {
@@ -61,24 +70,41 @@ const FeaturedMovie = () => {
     setTrailer(`${randomSingleFromArr(movieDetails?.videos?.results)?.key}`);
     setTriggerPlayTrailer(false);
   }, [movieDetails.id]);
-
-  const { currentSrc, loading } = useProgressiveImage({
-    filePath: backdropImage,
-    type: 'backdrop',
-    highRes: 'original',
-    lowRes: 'w300',
-  });
+ 
   if (!movieDetails) return null;
 
+  // Clear out values
   const handleOnMouseLeave = () => {
     // If timeout is already set, clear it
     clearTimeout(timeOutRef.current);
     setTriggerPlayTrailer(false);
+    setIsMouseOverHero(false);
   };
 
+  // Preload new image
+  const handleOnMouseEnter = () => {
+    setIsMouseOverHero(true);
+  };
+
+  // Show video player
   const handlePlayTrailerButton = () => {
     setTriggerPlayTrailer(true);
   };
+
+  // Preload next image for animation
+  // This value is passed to state > StaggerHeroImage comp.
+  const PreloadImage = useMemo(() => () => {
+    if (isMouseOverHero) {
+      const { currentSrc: preloadImage } = useProgressiveImage({
+        filePath: movieDetails?.images?.backdrops[2]?.file_path,
+        type: 'backdrop',
+        highRes: 'original',
+        lowRes: 'w300',
+      }); 
+      setPreloadedNextImage(preloadImage);
+    }
+    return null;
+  }, [isMouseOverHero, movieDetails]);
 
   return (
     <Box
@@ -86,15 +112,22 @@ const FeaturedMovie = () => {
       to={`/movie/${movieDetails.id}`}
       className={classes.featuredCardContainer}
       onMouseLeave={handleOnMouseLeave}
+      onMouseEnter={handleOnMouseEnter}
     >
+      {/* Trigger preload image */}
+      {isMouseOverHero && <PreloadImage />}
+      {/* *** */}
       <Card className={classes.card} classes={{ root: classes.cardRoot }}>
+        {/* Animation */}
         <StaggerHeroImage
           backdropImage={backdropImage}
           height={height}
           width={width}
           setBackdropImage={setBackdropImage}
           backdrops={backdrops}
+          nextImage={preloadedNextImage}
         />
+        {/* *** */}
         {triggerPlayTrailer || movieTrailerIdFromRedux ? (
           <div
             style={{

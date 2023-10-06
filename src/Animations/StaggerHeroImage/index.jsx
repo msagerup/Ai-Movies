@@ -5,13 +5,22 @@ import { getDarkThemeColors } from '../../helpers/darkThemeColors';
 import { randomSingleFromArr } from '../../helpers/randomSingleFromArr';
 import useStyles from './styles';
 
-const StaggerHeroImage = ({ backdropImage, height, width, backdrops, setBackdropImage }) => {
+const StaggerHeroImage = ({ 
+  backdropImage,
+  height,
+  width,
+  backdrops,
+  setBackdropImage,
+  nextImage,
+  
+}) => {
   const classes = useStyles();
   const [columns, setColumns] = useState(null);
   const [rows, setRows] = useState(null);
   const darkColors = getDarkThemeColors(8);
   const wrapperRef = useRef();
 
+  console.log(nextImage);
   // console.log(backdrops);
 
   // console.log(`https://image.tmdb.org/t/p/original${backdropImage}`);
@@ -19,7 +28,7 @@ const StaggerHeroImage = ({ backdropImage, height, width, backdrops, setBackdrop
   useLayoutEffect(() => {
     setColumns(Math.floor(width / 50));
     setRows(Math.floor(height / 50));
-  }, [backdropImage]); 
+  }, [nextImage]); 
 
   const handleOnClick = (e, index) => {
     const tiles = Array.from(document.querySelectorAll('#tiles > *'));
@@ -37,7 +46,8 @@ const StaggerHeroImage = ({ backdropImage, height, width, backdrops, setBackdrop
       }),
       changeBegin: () => {
         setTimeout(() => {
-          setBackdropImage(randomSingleFromArr(backdrops).file_path);
+          // Sets the backdrop image with the preloaded image
+          setBackdropImage(nextImage);
         }, 300);
       },
       complete: () => {

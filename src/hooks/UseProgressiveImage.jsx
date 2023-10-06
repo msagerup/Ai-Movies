@@ -19,8 +19,11 @@ const useProgressiveImage = ({ filePath, lowRes, highRes, type }) => {
   useEffect(() => {
     if (filePath === 'undefined') return;
 
-    if (filePath.includes('localhost')) {
-      console.log(filePath);
+    // File is already preloaded.
+    if (filePath?.includes('https')) {
+      setCurrentSrc(filePath);
+      setLoading(false);
+      return;
     }
 
     let highResImage = highRes;
