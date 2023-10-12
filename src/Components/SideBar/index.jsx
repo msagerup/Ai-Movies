@@ -1,27 +1,25 @@
-import React, { useContext, useEffect } from 'react';
-import {
-  Divider,
-  List,
-  ListItemButton,
-  ListItemText,
-  ListSubheader,
-  ListItemIcon,
-  IconButton,
-  Box,
-} from '@mui/material';
-
-import { useDispatch } from 'react-redux';
-
-import { Link } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
 import { Brightness4, Brightness7 } from '@mui/icons-material';
+import {
+  Box,
+  Divider,
+  IconButton,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  ListSubheader,
+} from '@mui/material';
+import React, { useContext, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { ColorModeContext } from '../../Context/ToggleColorMode';
 import { setgenreIdOrCategoryName } from '../../Redux/Features/currentGenreIdOrCategory';
-import useStyles from './styles.js';
 import { useGetGenresQuery } from '../../Redux/Services/TMDB.js';
-import Loader from '../Loader/Loader.jsx';
 import genreIcons from '../../assets/genres';
 import filmnerdlogo from '../../assets/images/filmnerd2.png';
-import { ColorModeContext } from '../../Context/ToggleColorMode';
+import Loader from '../Loader/Loader.jsx';
+import useStyles from './styles.js';
 
 const logo = filmnerdlogo;
 
@@ -59,12 +57,15 @@ const SideBar = ({ handleDrawer }) => {
   return (
     <>
       <Link to="/" className={classes.imageLink}>
-        <img
-          className={classes.image}
-          src={logo}
-          alt="Film Nerd Logo"
+        <div
           onClick={closeDrawer}
-        />
+        >
+          <img
+            className={classes.image}
+            src={logo}
+            alt="Film Nerd Logo"
+          />
+        </div>
       </Link>
       <Divider />
       <Box

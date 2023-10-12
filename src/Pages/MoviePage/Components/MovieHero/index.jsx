@@ -1,20 +1,23 @@
-import React, { useEffect, useRef, useState } from 'react';
+import InfoIcon from '@mui/icons-material/Info';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import {
   Box,
   Button,
-  Typography,
   Card,
   CardContent,
   CardMedia,
   Tooltip,
+  Typography,
   useMediaQuery,
 } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
-import { Link } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import InfoIcon from '@mui/icons-material/Info';
-import useStyles from './styles';
+import { Link } from 'react-router-dom';
+import StaggerHeroImage from '../../../../Animations/StaggerHeroImage';
+import GenreRow from '../../../../Components/GenreRow';
+import MovieLangAndRelease from '../../../../Components/MovieLangAndRelease';
+import YouTubeContainer from '../../../../Components/YouTubeContainer';
 import {
   selectMovieDetails,
   selectMovieTrailer,
@@ -22,10 +25,7 @@ import {
 import { randomSingleFromArr } from '../../../../helpers/randomSingleFromArr';
 import UseElmDimentions from '../../../../hooks/UseElmDimentions';
 import useProgressiveImage from '../../../../hooks/UseProgressiveImage';
-import YouTubeContainer from '../../../../Components/YouTubeContainer';
-import GenreRow from '../../../../Components/GenreRow';
-import MovieLangAndRelease from '../../../../Components/MovieLangAndRelease';
-import StaggerHeroImage from '../../../../Animations/StaggerHeroImage';
+import useStyles from './styles';
 
 const FeaturedMovie = () => {
   const classes = useStyles();
@@ -65,7 +65,7 @@ const FeaturedMovie = () => {
   const { currentSrc, loading } = useProgressiveImage({
     filePath: backdropImage,
     type: 'backdrop',
-    highRes: 'original',
+    highRes: 'w1280',
     lowRes: 'w300',
   });
   if (!movieDetails) return null;

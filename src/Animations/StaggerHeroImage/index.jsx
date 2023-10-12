@@ -1,18 +1,27 @@
-import React, { useState, useLayoutEffect, useRef } from 'react';
+import { useTheme } from '@emotion/react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
+import { useMediaQuery } from '@mui/material';
 import anime from 'animejs';
+import { getTileColors } from '../../helpers/getTileColors';
 import { randomSingleFromArr } from '../../helpers/randomSingleFromArr';
 import useStyles from './styles';
-import { getDarkThemeColors } from '../../helpers/darkThemeColors';
 
 const StaggerHeroImage = ({ backdropImage, height, width, backdrops, setBackdropImage }) => {
   const classes = useStyles();
+  const theme = useTheme();
   const [columns, setColumns] = useState(null);
   const [rows, setRows] = useState(null);
-  const darkColors = getDarkThemeColors(8);
+  const tileColors = getTileColors(theme);
   const wrapperRef = useRef();
+  const isMobile = useMediaQuery((themeMode) => themeMode.breakpoints.down('md'));
 
   useLayoutEffect(() => {
+    if (isMobile) {
+      setColumns(Math.floor(width / 40));
+      setRows(Math.floor(height / 40));
+    }
+    // Desktop
     setColumns(Math.floor(width / 50));
     setRows(Math.floor(height / 50));
   }, [backdropImage]); 
@@ -22,10 +31,10 @@ const StaggerHeroImage = ({ backdropImage, height, width, backdrops, setBackdrop
   
     anime({
       targets: tiles,
-      backgroundColor: randomSingleFromArr(darkColors),
+      backgroundColor: randomSingleFromArr(tileColors),
       scale: [
-        { value: 1, easing: 'easeInOutQuad', duration: 300 },
-        { value: 0, easing: 'easeOutSine', duration: 100 },
+        { value: 1, easing: 'easeInOutQuad', duration: 280 },
+        { value: 0, easing: 'easeOutSine', duration: 90 },
       ],
       delay: anime.stagger(25, {
         grid: [columns, rows],
@@ -34,7 +43,7 @@ const StaggerHeroImage = ({ backdropImage, height, width, backdrops, setBackdrop
       changeBegin: () => {
         setTimeout(() => {
           setBackdropImage(randomSingleFromArr(backdrops).file_path);
-        }, 300);
+        }, 280);
       },
       complete: () => {
         tiles.forEach((tile) => {
