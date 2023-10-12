@@ -1,5 +1,3 @@
-import { useTheme } from '@emotion/react';
-import { Brightness4, Brightness7 } from '@mui/icons-material';
 import {
   Box,
   Divider,
@@ -11,7 +9,11 @@ import {
   ListSubheader,
 } from '@mui/material';
 import React, { useContext, useEffect } from 'react';
+
 import { useDispatch } from 'react-redux';
+
+import { useTheme } from '@emotion/react';
+import { Brightness4, Brightness7 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { ColorModeContext } from '../../Context/ToggleColorMode';
 import { setgenreIdOrCategoryName } from '../../Redux/Features/currentGenreIdOrCategory';
@@ -57,15 +59,12 @@ const SideBar = ({ handleDrawer }) => {
   return (
     <>
       <Link to="/" className={classes.imageLink}>
-        <div
+        <img
+          className={classes.image}
+          src={logo}
+          alt="Film Nerd Logo"
           onClick={closeDrawer}
-        >
-          <img
-            className={classes.image}
-            src={logo}
-            alt="Film Nerd Logo"
-          />
-        </div>
+        />
       </Link>
       <Divider />
       <Box
